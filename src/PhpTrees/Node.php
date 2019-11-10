@@ -41,12 +41,12 @@ class Node
         return $this->value;
     }
 
-    public function getRightChild()
+    public function getRightChild() : ?Node
     {
         return $this->right;
     }
 
-    public function getLeftChild()
+    public function getLeftChild() : ?Node
     {
         return $this->left;
     }

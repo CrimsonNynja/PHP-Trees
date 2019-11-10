@@ -12,6 +12,10 @@ class BinaryTree implements \Iterator
     private $root;
     private $mode;
 
+    /**
+     * constructs a new BinaryTree
+     * @param mixed $rootValue the initial value of the tree's root
+     */
     public function __construct($rootValue, $mode=null)
     {
         $this->root = new Node($rootValue);
@@ -20,11 +24,23 @@ class BinaryTree implements \Iterator
 
     /**
      * adds a node to the tree
-     * @param $value the value to add to the tree
+     * @param mixed $value the value to add to the tree
      */
     public function insert($value)
     {
         $this->root->addChild($value);
+    }
+
+    /**
+     * inserts multiple entries in the tree in order
+     * @param mixed ...$values the values to insert, inserted in the order they are given in
+     */
+    public function insertMultiple(...$values)
+    {
+        foreach($values as $value)
+        {
+            $this->insert($value);
+        }
     }
 
     /**
@@ -51,11 +67,11 @@ class BinaryTree implements \Iterator
 
     /**
      * checks if the tree has the given value
-     * @param $value the value to check for
-     * @param $node the node to check from, also used i recursion
+     * @param mixed $value the value to check for
+     * @param Node $node the node to check from, also used i recursion
      * @return bool if the value was found or not
      */
-    public function hasValue($value, $node=null) : bool
+    public function hasValue($value, Node $node=null) : bool
     {
         if ($node === null) {
             $node = $this->root;
@@ -68,15 +84,30 @@ class BinaryTree implements \Iterator
         if ($node->getValue() == $value) {
             return true;
         }
-        else if ($node->getLeftChild() !== null || $node->getRightChild() !== null) {
-            if ($value > $node->getValue()) {
+        else {
+            if ($value > $node->getValue() && $node->getRightChild() !== null) {
                 return $this->hasValue($value, $node->getRightChild());
             }
-            else {
+            else if ($node->getLeftChild() !== null){
                 return $this->hasValue($value, $node->getLeftChild());
             }
         }
         return false;
+    }
+
+    /**
+     * checks that the tree has all values specified
+     * @param mixed ...$values the values to check for
+     * @return bool if all the values exists or not
+     */
+    public function hasValues(...$values) : bool
+    {
+        $ret = true;
+        foreach($values as $value)
+        {
+            $ret &= $this->hasValue($value);
+        }
+        return $ret;
     }
 
     public function change($node, $newValue)
@@ -86,9 +117,10 @@ class BinaryTree implements \Iterator
 
     /**
      * gets the smallest value in the binary tree
-     * @return T the minimum value in the tree
+     * @param Node $node the node on which to search from, searches from the root if not specified
+     * @return mixed the minimum value in the tree
      */
-    public function getMinValue($node=null)
+    public function getMinValue(Node $node=null)
     {
         if ($node === null) {
             $node = $this->root;
@@ -108,9 +140,10 @@ class BinaryTree implements \Iterator
 
     /**
      * gets the largest value in the binary tree
-     * @return T the maximum value in the tree
+     * @param Node $node the node on which to search from, searches from the root if not specified
+     * @return mixed the maximum value in the tree
      */
-    public function getMaxValue($node=null)
+    public function getMaxValue(Node $node=null)
     {
         if ($node === null) {
             $node = $this->root;
