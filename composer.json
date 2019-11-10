@@ -1,12 +1,17 @@
 {
-    "name": "hudsoncassidy/php-trees",
-    "description": "PHP implementation of Trees",
+    "name": "crimson-nynja/php-trees",
+    "description": "PHP implementation of various Trees",
+    "licence": "GNU",
+    "keywords": ["PHP","Trees", "Tree"],
     "authors": [
         {
             "name": "Hudson Cassidy",
             "email": "hudoc96@hotmail.com"
         }
     ],
+    "require": {
+        "php": ">=7.2.0"
+    },
     "autoload": {
         "psr-4": {
             "PhpTrees\\": "src/PhpTrees/"
