@@ -1,0 +1,21 @@
+{
+    "name": "hudsoncassidy/php-trees",
+    "description": "PHP implmentation of Trees",
+    "authors": [
+        {
+            "name": "Hudson Cassidy",
+            "email": "hudoc96@hotmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "PhpTrees\\": "src/PhpTrees/"
+        }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8"
+    },
+    "scripts": {
+        "test": "./vendor/bin/phpunit --colors=always --bootstrap vendor/autoload.php tests"
+    }
+}
