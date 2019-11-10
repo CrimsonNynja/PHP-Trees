@@ -1,14 +1,14 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
-use PhpTrees\BinaryTree;
+use PhpTrees\BinarySearchTree;
 use PhpTrees\Node;
 
-class BinaryTreeTest extends TestCase
+class BinarySearchTreeTest extends TestCase
 {
     public function testConstruct()
     {
-        $b = new PhpTrees\BinaryTree(1);
+        $b = new PhpTrees\BinarySearchTree(1);
         $this->assertSame($b->getRoot()->getValue(), 1);
         $this->assertNull($b->getRoot()->getLeftChild());
         $this->assertNull($b->getRoot()->getRightChild());
@@ -16,7 +16,7 @@ class BinaryTreeTest extends TestCase
 
     public function testInsert()
     {
-        $b = new PhpTrees\BinaryTree(5);
+        $b = new PhpTrees\BinarySearchTree(5);
         $b->insert(7);
         $b->insert(3);
         $this->assertSame($b->getRoot()->getValue(), 5);
@@ -29,7 +29,7 @@ class BinaryTreeTest extends TestCase
 
     public function testGetRoot()
     {
-        $b = new PhpTrees\BinaryTree(5);
+        $b = new PhpTrees\BinarySearchTree(5);
         $this->assertSame($b->getRoot()->getValue(), 5);
         $this->assertNull($b->getRoot()->getLeftChild());
         $this->assertNull($b->getRoot()->getRightChild());
@@ -43,7 +43,7 @@ class BinaryTreeTest extends TestCase
 
     public function testGetMinValue()
     {
-        $b = new PhpTrees\BinaryTree(5);
+        $b = new PhpTrees\BinarySearchTree(5);
         $this->assertSame($b->getMinValue(), 5);
         $b->insert(7);
         $this->assertSame($b->getMinValue(), 5);
@@ -53,7 +53,7 @@ class BinaryTreeTest extends TestCase
 
     public function testGetMaxValue()
     {
-        $b = new PhpTrees\BinaryTree(5);
+        $b = new PhpTrees\BinarySearchTree(5);
         $this->assertSame($b->getMaxValue(), 5);
         $b->insert(7);
         $this->assertSame($b->getMaxValue(), 7);
@@ -63,7 +63,7 @@ class BinaryTreeTest extends TestCase
 
     public function testHasValue()
     {
-        $b = new PhpTrees\BinaryTree(5);
+        $b = new PhpTrees\BinarySearchTree(5);
         $this->assertTrue($b->hasValue(5));
         $this->assertFalse($b->hasValue(7));
 
@@ -80,7 +80,7 @@ class BinaryTreeTest extends TestCase
 
     public function testInsertMultiple()
     {
-        $b = new PhpTrees\BinaryTree(5);
+        $b = new PhpTrees\BinarySearchTree(5);
         $b->insertMultiple(3, 7, 9);
         $this->assertTrue($b->hasValue(5));
         $this->assertTrue($b->hasValue(3));
@@ -90,7 +90,7 @@ class BinaryTreeTest extends TestCase
 
     public function testHasValues()
     {
-        $b = new PhpTrees\BinaryTree(5);
+        $b = new PhpTrees\BinarySearchTree(5);
         $b->insertMultiple(3, 7, 9, 11, 15, 1, 2);
         $this->assertFalse($b->hasValues(1, 2, 3, 4));
         $this->assertTrue($b->hasValues(1, 5));

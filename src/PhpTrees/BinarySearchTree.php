@@ -7,7 +7,7 @@ use PhpTrees\Node;
 /**
  * implementation of a binary tree
  */
-class BinaryTree implements \Iterator
+class BinarySearchTree implements \Iterator
 {
     /* the root of the tree */
     private $root;
@@ -16,7 +16,7 @@ class BinaryTree implements \Iterator
     private $iteratorPosition;
 
     /**
-     * constructs a new BinaryTree
+     * constructs a new BinarySearchTree
      * @param mixed $rootValue the initial value of the tree's root
      */
     public function __construct($rootValue, $mode=null)
@@ -53,19 +53,6 @@ class BinaryTree implements \Iterator
     public function getRoot()
     {
         return $this->root;
-    }
-
-    public function delete()
-    {
-
-    }
-
-    /**
-     *
-     */
-    public function traverse(string $traversalType)
-    {
-
     }
 
     /**
@@ -111,11 +98,6 @@ class BinaryTree implements \Iterator
             $ret &= $this->hasValue($value);
         }
         return $ret;
-    }
-
-    public function change($node, $newValue)
-    {
-
     }
 
     /**
