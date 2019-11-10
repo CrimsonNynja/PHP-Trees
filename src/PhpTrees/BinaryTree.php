@@ -9,8 +9,11 @@ use PhpTrees\Node;
  */
 class BinaryTree implements \Iterator
 {
+    /* the root of the tree */
     private $root;
     private $mode;
+    /* used for iterating over the tree */
+    private $iteratorPosition;
 
     /**
      * constructs a new BinaryTree
@@ -116,11 +119,11 @@ class BinaryTree implements \Iterator
     }
 
     /**
-     * gets the smallest value in the binary tree
-     * @param Node $node the node on which to search from, searches from the root if not specified
-     * @return mixed the minimum value in the tree
+     * gets the node with the smallest value
+     * @param Node $node the node to recurse on
+     * @return Node the minimum node
      */
-    public function getMinValue(Node $node=null)
+    private function getMinNode(Node $node=null)
     {
         if ($node === null) {
             $node = $this->root;
@@ -131,19 +134,28 @@ class BinaryTree implements \Iterator
         }
 
         if ($node->getLeftChild() === null) {
-            return $node->getValue();
+            return $node;
         }
         else {
-            return $this->getMinValue($node->getLeftChild());
+            return $this->getMinNode($node->getLeftChild());
         }
     }
 
     /**
-     * gets the largest value in the binary tree
-     * @param Node $node the node on which to search from, searches from the root if not specified
-     * @return mixed the maximum value in the tree
+     * gets the smallest value in the binary tree
+     * @return mixed the minimum value in the tree
      */
-    public function getMaxValue(Node $node=null)
+    public function getMinValue()
+    {
+        return $this->getMinNode()->getValue();
+    }
+
+    /**
+     * gets the node with the largest value
+     * @param Node $node the node to recurse on
+     * @return Node the maximum node
+     */
+    private function getMaxNode(Node $node=null)
     {
         if ($node === null) {
             $node = $this->root;
@@ -154,38 +166,54 @@ class BinaryTree implements \Iterator
         }
 
         if ($node->getRightChild() === null) {
-            return $node->getValue();
+            return $node;
         }
         else {
-            return $this->getMaxValue($node->getRightChild());
+            return $this->getMaxNode($node->getRightChild());
         }
     }
 
-
-
-    ////////Allows tree to be used with foreach loops
-
-    public function rewind()
+    /**
+     * gets the largest value in the binary tree
+     * @return mixed the maximum value in the tree
+     */
+    public function getMaxValue()
     {
-
+        return $this->getMaxNode()->getValue();
     }
 
+    //////////////////////////////////
+    //Iterator functions
+    //////////////////////////////////
+
+    /**
+     * gets the current value of the iterator
+     * @return mixed the value of the currently on node
+     */
     public function current()
     {
-
+        return $this->iteratorPosition->getValue();
     }
 
     public function key()
     {
-
+        return $this->iteratorPosition->getId();
     }
 
-    public function next()
+    public function next() : void
     {
 
     }
 
-    public function valid()
+    /**
+     * sets the iterator to the start value, or the left most leaf of the tree
+     */
+    public function rewind() : void
+    {
+        $this->iteratorPosition = $this->getMinNode();
+    }
+
+    public function valid() : bool
     {
 
     }
