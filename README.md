@@ -6,12 +6,13 @@ currently all that is complete is a binary search tree implementation, however i
 All tests are written un PHP Unit, and all code is written in the PSR-4 standards
 
 
-
-
 # Future Plans
-completion of iterator integration / tree traversal
-deleting from the binary tree
-custom comparitors for inserting any type
-2-3 tree
-balanced binary tree
+completion of iterator integration / tree traversal\
+custom comparitors for inserting any type\
+tree balancing options\
+returning as ordered array\
+2-3 tree\
+Heep\
+B-Tree\
+Rope\
 search types (depth first search breadth first search, etc)

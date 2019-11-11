@@ -1,7 +1,7 @@
 {
     "name": "crimson-nynja/php-trees",
     "description": "PHP implementation of various Trees",
-    "licence": "GNU",
+    "licence": "GPL-3.0-or-later",
     "keywords": ["PHP","Trees", "Tree"],
     "authors": [
         {

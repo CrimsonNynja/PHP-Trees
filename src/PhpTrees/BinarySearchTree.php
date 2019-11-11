@@ -10,8 +10,7 @@ use PhpTrees\Node;
 class BinarySearchTree implements \Iterator
 {
     /* the root of the tree */
-    private $root;
-    private $mode;
+    private $root = null;
     /* used for iterating over the tree */
     private $iteratorPosition;
 
@@ -19,10 +18,11 @@ class BinarySearchTree implements \Iterator
      * constructs a new BinarySearchTree
      * @param mixed $rootValue the initial value of the tree's root
      */
-    public function __construct($rootValue, $mode=null)
+    public function __construct($rootValue = null)
     {
-        $this->root = new Node($rootValue);
-        $this->mode = $mode;
+        if ($rootValue !== null) {
+            $this->root = new Node($rootValue);
+        }
     }
 
     /**
@@ -31,7 +31,12 @@ class BinarySearchTree implements \Iterator
      */
     public function insert($value)
     {
-        $this->root->addChild($value);
+        if ($this->root !== null) {
+            $this->root->addChild($value);
+        }
+        else {
+            $this->root = new Node($value);
+        }
     }
 
     /**
@@ -50,9 +55,38 @@ class BinarySearchTree implements \Iterator
      * gets the Node of the trees root
      * @return Node the roots
      */
-    public function getRoot()
+    public function getRoot() : ?Node
     {
         return $this->root;
+    }
+
+    /**
+     * returns the node of the given value
+     * @param mixed $value the value to look for
+     * @return Node the node with the given value or null
+     */
+    public function find($value, Node $node=null) : ?Node
+    {
+        if ($node === null) {
+            $node = $this->root;
+        }
+
+        if ($this->root === null) {
+            return null;
+        }
+
+        if ($node->getValue() == $value) {
+            return $node;
+        }
+        else {
+            if ($value > $node->getValue() && $node->getRightChild() !== null) {
+                return $this->find($value, $node->getRightChild());
+            }
+            else if ($node->getLeftChild() !== null){
+                return $this->find($value, $node->getLeftChild());
+            }
+        }
+        return null;
     }
 
     /**
@@ -61,26 +95,10 @@ class BinarySearchTree implements \Iterator
      * @param Node $node the node to check from, also used i recursion
      * @return bool if the value was found or not
      */
-    public function hasValue($value, Node $node=null) : bool
+    public function hasValue($value) : bool
     {
-        if ($node === null) {
-            $node = $this->root;
-        }
-
-        if ($this->root === null) {
-            return false;
-        }
-
-        if ($node->getValue() == $value) {
+        if ($this->find($value)) {
             return true;
-        }
-        else {
-            if ($value > $node->getValue() && $node->getRightChild() !== null) {
-                return $this->hasValue($value, $node->getRightChild());
-            }
-            else if ($node->getLeftChild() !== null){
-                return $this->hasValue($value, $node->getLeftChild());
-            }
         }
         return false;
     }
@@ -163,6 +181,43 @@ class BinarySearchTree implements \Iterator
     {
         return $this->getMaxNode()->getValue();
     }
+
+    /**
+     * deletes the given node from the tree
+     * @param Node $node the node to delete
+     */
+    public function delete(Node $node)
+    {
+        if ($node->getLeftChild() === null && $node->getRightChild() === null) {
+            //no children
+            if ($node->getId() == $this->root->getId()) {
+                $this->root = null;
+            }
+            else {
+                $node->getParent()->removeChild($node->getId());
+            }
+        }
+        else if ($node->getLeftChild() !== null && $node -> getRightChild() !== null)
+        {
+            //2 children
+            $maximumLeft = $this->getMaxNode($node->getLeftChild());
+            $node->setValue($maximumLeft->getValue());
+            $maximumLeft->getParent()->removeChild($maximumLeft->getId());
+        }
+        else if ($node->getLeftChild() !== null || $node->getRightChild() !== null) {
+            //1 child
+            $childReplacingWith = $node->getLeftChild() !== null ? $node->getLeftChild() : $node->getRightChild();
+            if ($node->getId() == $this->root->getId()) {
+                $this->root = $childReplacingWith;
+            }
+            else {
+                $node->getParent()->replaceChild($node->getId(), $childReplacingWith);
+            }
+        }
+
+    }
+
+    //TODO make a delete by id
 
     //////////////////////////////////
     //Iterator functions
