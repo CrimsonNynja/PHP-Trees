@@ -64,4 +64,14 @@ class NodeTest extends TestCase
         $n->addChild(7);
         $this->assertFalse($n->isLeaf());
     }
+
+    public function testHasChild()
+    {
+        $n = new Node(5);
+        $this->assertFalse($n->hasChild(new Node(6)));
+
+        $n->addChild(8);
+        $this->assertFalse($n->hasChild(new Node(9)));
+        $this->assertTrue(($n->hasChild($n->getRightChild())));
+    }
 }

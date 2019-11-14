@@ -106,6 +106,24 @@ class Node
     }
 
     /**
+     * checks if any of the nodes child nodes are the given node
+     */
+    public function hasChild(Node $child) : bool
+    {
+        if ($this->left !== null) {
+            if ($this->left->getId() === $child->getId()) {
+                return true;
+            }
+        }
+        if ($this->right !== null) {
+            if ($this->right->getId() === $child->getId()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * gets the value of the node
      * @return mixed the value of the node
      */

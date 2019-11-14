@@ -3,6 +3,7 @@
 namespace PhpTrees;
 
 use PhpTrees\Node;
+use PhpTrees\Stack;
 
 /**
  * implementation of a binary tree
@@ -12,7 +13,10 @@ class BinarySearchTree implements \Iterator
     /* the root of the tree */
     private $root = null;
     /* used for iterating over the tree */
-    private $iteratorPosition;
+    private $iteratorPosition = null;
+    /* used for iterating through the tree */
+    private $iteratorStack = null;
+
 
     /**
      * constructs a new BinarySearchTree
@@ -239,7 +243,25 @@ class BinarySearchTree implements \Iterator
 
     public function next() : void
     {
+        if (!$this->iteratorStack->isEmpty()) {
+            $node = $this->iteratorStack->pop();
+        }
 
+
+        // if ($this->iteratorPosition->getId() === $this->getMaxNode()->getId()) {
+        //     $this->iteratorPosition = null;
+        // }
+        // else if (($this->iteratorPosition->isLeaf() || $this->iteratorPosition->hasChild($this->lastIteratorPosition)) && $this->iteratorPosition !== $this->root) {
+        //     $this->lastIteratorPosition = $this->iteratorPosition;
+        //     $this->iteratorPosition = $this->iteratorPosition->getParent();
+        // }
+        // else if ($this->iteratorPosition->getId() === $this->root->getId() && $this->root->getRightChild() !== null) {
+        //     $this->lastIteratorPosition = $this->iteratorPosition;
+        //     $this->iteratorPosition = $this->iteratorPosition->getRightChild();
+        // }
+        // else {
+
+        // }
     }
 
     /**
@@ -248,10 +270,19 @@ class BinarySearchTree implements \Iterator
     public function rewind() : void
     {
         $this->iteratorPosition = $this->getMinNode();
+        $this->iteratorStack = new Stack();
+        $node = $this->root;
+        while ($node->getLeftChild() !== null) {
+            $this->iteratorStack->push($node);
+            $node = $node->getLeftChild();
+        }
     }
 
     public function valid() : bool
     {
-
+        if ($this->iteratorPosition === null) {
+            return false;
+        }
+        return true;
     }
 }
