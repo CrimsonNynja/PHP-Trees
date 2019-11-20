@@ -26,7 +26,6 @@ For a more detailed description of the features of PHP Trees, check out the wiki
 https://github.com/CrimsonNynja/PHP-Trees/wiki
 
 # Future Plans
-completion of iterator integration / tree traversal\
 custom comparitors for inserting any type\
 tree balancing options\
 returning as ordered array\
@@ -35,11 +34,3 @@ Heep\
 B-Tree\
 Rope\
 search/traversal types (depth first search breadth first search, etc)
-
-
-
-
-       5
-   2       7
- 1   3   5   9
-0 1 2 3 4 6 7 9

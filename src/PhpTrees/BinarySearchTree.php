@@ -13,10 +13,9 @@ class BinarySearchTree implements \Iterator
     /* the root of the tree */
     private $root = null;
     /* used for iterating over the tree */
-    private $iteratorPosition = null;
+    private $iteratorPosition = false;
     /* used for iterating through the tree */
     private $iteratorStack = null;
-
 
     /**
      * constructs a new BinarySearchTree
@@ -236,51 +235,59 @@ class BinarySearchTree implements \Iterator
         return $this->iteratorPosition->getValue();
     }
 
-    public function key()
+    /**
+     * gets the key for a for loop
+     * @return int the id of the next returned node
+     */
+    public function key() : int
     {
         return $this->iteratorPosition->getId();
     }
 
+    /**
+     * moves the iterator up one position
+     */
     public function next() : void
     {
-        if (!$this->iteratorStack->isEmpty()) {
-            $node = $this->iteratorStack->pop();
+        if ($this->iteratorStack->isEmpty() === true) {
+            $this->iteratorStack = null;
         }
-
-
-        // if ($this->iteratorPosition->getId() === $this->getMaxNode()->getId()) {
-        //     $this->iteratorPosition = null;
-        // }
-        // else if (($this->iteratorPosition->isLeaf() || $this->iteratorPosition->hasChild($this->lastIteratorPosition)) && $this->iteratorPosition !== $this->root) {
-        //     $this->lastIteratorPosition = $this->iteratorPosition;
-        //     $this->iteratorPosition = $this->iteratorPosition->getParent();
-        // }
-        // else if ($this->iteratorPosition->getId() === $this->root->getId() && $this->root->getRightChild() !== null) {
-        //     $this->lastIteratorPosition = $this->iteratorPosition;
-        //     $this->iteratorPosition = $this->iteratorPosition->getRightChild();
-        // }
-        // else {
-
-        // }
+        else {
+            $ret = $this->iteratorStack->pop();
+            if ($ret->getRightChild() !== null) {
+                $node = $ret->getRightChild();
+                while($node !== null) {
+                    $this->iteratorStack->push($node);
+                    $node = $node->getLeftChild();
+                }
+            }
+            $this->iteratorPosition = $this->iteratorStack->peek();
+        }
     }
 
     /**
-     * sets the iterator to the start value, or the left most leaf of the tree
+     * sets the iterator to the start value, or the left ;most leaf of the tree
      */
     public function rewind() : void
     {
-        $this->iteratorPosition = $this->getMinNode();
-        $this->iteratorStack = new Stack();
-        $node = $this->root;
-        while ($node->getLeftChild() !== null) {
-            $this->iteratorStack->push($node);
-            $node = $node->getLeftChild();
+        if ($this->root !== null) {
+            $this->iteratorStack = new Stack();
+            $node = $this->root;
+            while ($node !== null) {
+                $this->iteratorStack->push($node);
+                $node = $node->getLeftChild();
+            }
+            $this->iteratorPosition = $this->iteratorStack->peek();
         }
     }
 
+    /**
+     *  checks if the iterator should continue
+     * @return boolean if the iterator should continue or not
+     */
     public function valid() : bool
     {
-        if ($this->iteratorPosition === null) {
+        if ($this->iteratorPosition === false) {
             return false;
         }
         return true;

@@ -164,38 +164,49 @@ class BinarySearchTreeTest extends TestCase
         $this->assertTrue($b->hasValue(5, 3, 2));
     }
 
-    // public function testIteratorOneNodeOrJustRoot()
-    // {
-    //     $b = new PhpTrees\BinarySearchTree();
-    //     foreach($b as $key => $node) {
-    //         $this->fail("nothing should be retrieved here");
-    //     }
+    public function testIteratorOneNodeOrJustRoot()
+    {
+        $b = new PhpTrees\BinarySearchTree();
+        foreach($b as $key => $node) {
+            $this->fail("nothing should be retrieved here");
+        }
 
-    //     $b->insert(5);
-    //     foreach($b as $key => $node) {
-    //         $this->assertSame($node, 5);
-    //     }
-    // }
+        $b->insert(5);
+        foreach($b as $key => $node) {
+            $this->assertSame($node, 5);
+        }
+    }
 
-    // public function testIteratorStraightLeftNodes()
-    // {
-    //     $b = new PhpTrees\BinarySearchTree(10);
-    //     $b->insertMultiple(5, 3, 2, 1);
-    //     $result = [];
-    //     foreach($b as $node) {
-    //         $result[] = $node;
-    //     }
-    //     $this->assertSame($result, [1, 2, 3, 5, 10]);
-    // }
+    public function testIteratorStraightLeftNodes()
+    {
+        $b = new PhpTrees\BinarySearchTree(10);
+        $b->insertMultiple(5, 3, 2, 1);
+        $result = [];
+        foreach($b as $node) {
+            $result[] = $node;
+        }
+        $this->assertSame($result, [1, 2, 3, 5, 10]);
+    }
 
-    // public function testIteratorStraightRightNodes()
-    // {
-    //     $b = new PhpTrees\BinarySearchTree(10);
-    //     $b->insertMultiple(15, 20, 21, 25);
-    //     $result = [];
-    //     foreach($b as $node) {
-    //         $result[] = $node;
-    //     }
-    //     $this->assertSame($result, [10, 15, 20, 21, 25]);
-    // }
+    public function testIteratorStraightRightNodes()
+    {
+        $b = new PhpTrees\BinarySearchTree(10);
+        $b->insertMultiple(15, 20, 21, 25);
+        $result = [];
+        foreach($b as $node) {
+            $result[] = $node;
+        }
+        $this->assertSame($result, [10, 15, 20, 21, 25]);
+    }
+
+    public function testIteratorAllBranches()
+    {
+        $b = new PhpTrees\BinarySearchTree(10);
+        $b->insertMultiple(5, 15, 3, 7, 12, 20, 1, 4, 6, 8, 11, 13, 17, 22);
+        $result = [];
+        foreach($b as $node) {
+            $result[] = $node;
+        }
+        $this->assertSame($result, [1, 3, 4, 5, 6, 7, 8, 10, 11, 12, 13, 15, 17, 20, 22]);
+    }
 }
