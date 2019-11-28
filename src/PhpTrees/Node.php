@@ -161,8 +161,9 @@ class Node
 
     /**
      * gets the node id
+     * @return int the id of the node
      */
-    public function getId()
+    public function getId() : int
     {
         return $this->id;
     }

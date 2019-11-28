@@ -8,7 +8,7 @@ All tests are written in PHP Unit, and all code is written in the PSR-4 standard
 
 PHP Trees can be installed through composer with
 
-```json
+```bash
 composer require crimson-nynja/php-trees
 ```
 

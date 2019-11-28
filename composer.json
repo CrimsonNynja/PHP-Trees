@@ -15,7 +15,10 @@
     "autoload": {
         "psr-4": {
             "PhpTrees\\": "src/PhpTrees/"
-        }
+        },
+        "files": [
+            "src/PhpTrees/RopeFunctions.php"
+        ]
     },
     "require-dev": {
         "phpunit/phpunit": "^8"
