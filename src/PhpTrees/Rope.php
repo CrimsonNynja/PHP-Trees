@@ -43,11 +43,27 @@ class Rope
      * gets the character as the given index
      * @param int $index the index of the character to retrieve
      * @param RopeNode $node the recursive node to search
-     * @return ?string the char at the given position or null if index is out of range
+     * @return ?string the char at the given position or null if index is out of range or if no root exists
      */
     function index(int $index, RopeNode $node = null) : ?string
     {
+        if ($node === null) {
+            $node = $this->root;
+        }
+        if ($node === null) {
+            return null;
+        }
 
+        if ($node->getWeight() <= $index && $node->getRightChild() !== null) {
+            return $this->index($index - $node->getWeight(), $node->getRightChild());
+        }
+        if ($node->getLeftChild() !== null) {
+            return $this->index($index, $node->getLeftChild());
+        }
+        if (strlen($node->getValue()) > $index) {
+            return $node->getValue()[$index];
+        }
+        return null;
     }
 
     /**

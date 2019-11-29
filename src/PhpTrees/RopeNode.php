@@ -25,13 +25,17 @@ class RopeNode
     private function getLeafWeights(RopeNode $node) : int
     {
         $ret = 0;
-        if ($node->getLeftChild() !== null) {
-            $ret += $node->getLeftChild()->getChildWeight();
+        if ($node->hasChildren() === false) {
+            return $node->getWeight();
         }
-        if ($node->getRightChild() !== null) {
-
+        else {
+            if ($node->getLeftChild()) {
+                $ret += $node->getLeftChild()->getWeight();
+            }
+            if ($node->getRightChild()) {
+                $ret += $node->getRightChild()->getWeight();
+            }
         }
-
         return $ret;
     }
 
@@ -44,8 +48,16 @@ class RopeNode
     public function addLeftChild(RopeNode $node) : void
     {
         $this->left = $node;
-        //$this->weight = $this->getLeftChild()->getChildWeight();
+        $this->weight = $this->getLeftChild()->getLeafWeights($node);
         $this->value = null;
+    }
+
+    public function hasChildren() : bool
+    {
+        if ($this->left || $this->right) {
+            return true;
+        }
+        return false;
     }
 
     public function getValue() : ?string

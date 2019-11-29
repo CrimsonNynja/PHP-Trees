@@ -16,5 +16,6 @@ class RopeFunctionsTest extends TestCase
         $this->assertSame($concat->getRoot()->getLeftChild()->getValue(), "words 1");
         $this->assertSame($concat->getRoot()->getWeight(), 7);
         //TODO assert length, and to_string here as well
+        //TODO assert empty test cases as well
     }
 }
