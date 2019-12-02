@@ -15,8 +15,8 @@ class Node
     private $right = null;
     /* used for quick deletions */
     private $parent = null;
-    /* the node's if, used for iterating over the tree */
-    private $id;
+    /* the node's id, used for iterating over the tree */
+    private $id = 0;
 
     /**
      * constructs the node with the given value also generates a unique id for the node

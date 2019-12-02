@@ -22,18 +22,18 @@ class RopeNode
         }
     }
 
-    private function getLeafWeights(RopeNode $node) : int
+    public function getLeafWeights(RopeNode $node) : int
     {
         $ret = 0;
         if ($node->hasChildren() === false) {
             return $node->getWeight();
         }
         else {
-            if ($node->getLeftChild()) {
-                $ret += $node->getLeftChild()->getWeight();
+            if ($node->getLeftChild() !== null) {
+                $ret += $node->getLeafWeights($node->getLeftChild());
             }
-            if ($node->getRightChild()) {
-                $ret += $node->getRightChild()->getWeight();
+            if ($node->getRightChild() !== null) {
+                $ret += $node->getLeafWeights($node->getRightChild());
             }
         }
         return $ret;
