@@ -22,8 +22,12 @@ class RopeNode
         }
     }
 
-    public function getLeafWeights(RopeNode $node) : int
+    public function getLeafWeights(RopeNode $node = null) : int
     {
+        if ($node === null) {
+            $node = $this;
+        }
+
         $ret = 0;
         if ($node->hasChildren() === false) {
             return $node->getWeight();
@@ -43,6 +47,9 @@ class RopeNode
     {
         $this->right = $node;
         $this->value = null;
+        if ($this->left === null) {
+            $this->weight = 0;
+        }
     }
 
     public function addLeftChild(RopeNode $node) : void

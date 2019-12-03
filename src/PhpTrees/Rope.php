@@ -27,7 +27,7 @@ class Rope
     function length() : int
     {
         if ($this->root !== null) {
-            return $this->root->getLeafWeights($this->root);
+            return $this->root->getLeafWeights();
         }
         return 0;
     }
