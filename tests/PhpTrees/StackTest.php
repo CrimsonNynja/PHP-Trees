@@ -3,7 +3,7 @@
 use PHPUnit\Framework\TestCase;
 use PhpTrees\Stack;
 
-class StackTest extends TestCase
+final class StackTest extends TestCase
 {
     public function testPush()
     {

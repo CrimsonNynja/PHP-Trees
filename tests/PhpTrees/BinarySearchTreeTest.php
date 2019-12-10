@@ -4,7 +4,7 @@ use PHPUnit\Framework\TestCase;
 use PhpTrees\BinarySearchTree;
 use PhpTrees\Node;
 
-class BinarySearchTreeTest extends TestCase
+final class BinarySearchTreeTest extends TestCase
 {
     public function testConstruct()
     {

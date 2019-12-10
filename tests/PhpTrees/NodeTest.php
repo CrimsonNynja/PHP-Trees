@@ -3,7 +3,7 @@
 use PHPUnit\Framework\TestCase;
 use PhpTrees\Node;
 
-class NodeTest extends TestCase
+final class NodeTest extends TestCase
 {
     public function testConstruction()
     {

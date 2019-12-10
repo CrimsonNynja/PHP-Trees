@@ -30,6 +30,15 @@ function splitRope(Rope $rope, int $index) : array
     if ($index >= $rope->length()) {
         return [$rope];
     }
+
+    $r1 = $rope;
+    $node = $r1->splitNodeAtPosition($index);
+    $n = $node->removeRightChildren();
+    $r2 = new Rope($n->getValue());
+    //TODO split for larger ropes, need to traverse back up the tree and add back to r2, and take from r1
+
+    return [$r1, $r2];
+
 }
 
 

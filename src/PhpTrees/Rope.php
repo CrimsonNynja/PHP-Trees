@@ -70,6 +70,31 @@ class Rope
     }
 
     /**
+     * splits the given node at the given position into 2 nodes
+     * @param int $index the index to split at
+     * @param RopeNode $node the recursive node to search
+     * @return RopeNode returns the location of the split (the new parent of the newly created nodes)
+     */
+    public function splitNodeAtPosition(int $index, RopeNode $node = null) : ?RopeNode
+    {
+        if ($node === null) {
+            $node = $this->root;
+        }
+
+        if ($node->getWeight() <= $index && $node->getRightChild() !== null) {
+            return $this->splitNodeAtPosition($index - $node->getWeight(), $node->getRightChild());
+        }
+        if ($node->getLeftChild() !== null) {
+            return $this->splitNodeAtPosition($index, $node->getLeftChild());
+        }
+        if (strlen($node->getValue()) > $index) {
+            $node->splitAndAddChildren($index);
+            return $node;
+        }
+        return null;
+    }
+
+    /**
      * gets the substring between the 2 indexes
      * @param int $start the index to start from
      * @param int $end the index to end on, if not given defaults to the end of the rope

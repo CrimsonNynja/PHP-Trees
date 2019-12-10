@@ -3,7 +3,7 @@
 use PHPUnit\Framework\TestCase;
 use PhpTrees\Rope;
 
-class RopeTest extends TestCase
+final class RopeTest extends TestCase
 {
     public function testConstruct()
     {
