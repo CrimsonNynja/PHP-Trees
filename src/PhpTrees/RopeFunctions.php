@@ -11,6 +11,7 @@ use PhpTrees\RopeNode;
  */
 function concatRope(Rope $r1, Rope $r2) : Rope
 {
+    //TODO need to handle null cases here
     $ret = new Rope("");
     $ret->getRoot()->addLeftChild($r1->getRoot());
     $ret->getRoot()->addRightChild($r2->getRoot());
@@ -24,9 +25,11 @@ function concatRope(Rope $r1, Rope $r2) : Rope
  * @param int $index the position to split at
  * @return array<Rope> the rope split up and returned as as array
  */
-function split(Rope $rope, int $index) : array
+function splitRope(Rope $rope, int $index) : array
 {
-
+    if ($index >= $rope->length()) {
+        return [$rope];
+    }
 }
 
 

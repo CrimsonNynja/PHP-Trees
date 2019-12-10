@@ -57,4 +57,21 @@ class RopeTest extends TestCase
         $r = concatRope($r, $r3);
         $this->assertSame($r->length(), 13);
     }
+
+    public function testToString()
+    {
+        $r = new Rope();
+        $this->assertSame($r->toString(), "");
+
+        $r = new Rope("test");
+        $this->assertSame($r->toString(), "test");
+
+        $r = new Rope("Test");
+        $r2 = new Rope("Word");
+        $r3 = new Rope("Three");
+        $r = concatRope($r, $r2);
+        $r = concatRope($r, $r3);
+        $this->assertSame($r->toString(), "TestWordThree");
+
+    }
 }

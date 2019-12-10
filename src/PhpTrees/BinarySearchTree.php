@@ -68,7 +68,7 @@ class BinarySearchTree implements \Iterator
      * @param mixed $value the value to look for
      * @return Node the node with the given value or null
      */
-    public function find($value, Node $node=null) : ?Node
+    public function find($value, Node $node = null) : ?Node
     {
         if ($node === null) {
             $node = $this->root;
@@ -126,7 +126,7 @@ class BinarySearchTree implements \Iterator
      * @param Node $node the node to recurse on
      * @return Node the minimum node
      */
-    private function getMinNode(Node $node=null)
+    private function getMinNode(Node $node = null)
     {
         if ($node === null) {
             $node = $this->root;
@@ -158,7 +158,7 @@ class BinarySearchTree implements \Iterator
      * @param Node $node the node to recurse on
      * @return Node the maximum node
      */
-    private function getMaxNode(Node $node=null)
+    private function getMaxNode(Node $node = null)
     {
         if ($node === null) {
             $node = $this->root;

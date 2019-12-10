@@ -24,7 +24,7 @@ class Rope
      * returns the length of the text
      * @return int length of the rope's text, 0 if the rope is empty
      */
-    function length() : int
+    public function length() : int
     {
         if ($this->root !== null) {
             return $this->root->getLeafWeights();
@@ -37,18 +37,18 @@ class Rope
      * @param string $value the value to insert
      * @param int $the position to insert to, if not given, insert at the end
      */
-    function insert(string $value, int $index = null) : void
+    public function insert(string $value, int $index = null) : void
     {
 
     }
 
     /**
-     * gets the character as the given index
+     * gets the character at the given index
      * @param int $index the index of the character to retrieve
      * @param RopeNode $node the recursive node to search
      * @return ?string the char at the given position or null if index is out of range or if no root exists
      */
-    function index(int $index, RopeNode $node = null) : ?string
+    public function index(int $index, RopeNode $node = null) : ?string
     {
         if ($node === null) {
             $node = $this->root;
@@ -75,7 +75,7 @@ class Rope
      * @param int $end the index to end on, if not given defaults to the end of the rope
      * @return string the substring found
      */
-    function substr(int $start, int $end = null) : string
+    public function substr(int $start, int $end = null) : string
     {
 
     }
@@ -85,7 +85,7 @@ class Rope
      * @param int $start the index to start from
      * @param int $end the index to end on, if not given defaults to the end of the rope
      */
-    function removeSubstr(int $start, int $end = null) : void
+    public function removeSubstr(int $start, int $end = null) : void
     {
 
     }
@@ -94,16 +94,34 @@ class Rope
      * gets the rope in a string representation
      * @return string the rope as a string
      */
-    function toString() : string
+    public function toString(RopeNode $node = null) : string
     {
+        $ret = "";
 
+        if ($node === null) {
+            $node = $this->root;
+        }
+
+        if ($node !== null) {
+            if ($node->getValue() !== null) {
+                return $node->getValue();
+            }
+            if ($node->getLeftChild() !== null) {
+                $ret .= $this->toString($node->getLeftChild());
+            }
+            if ($node->getRightChild() !== null) {
+                $ret .= $this->toString($node->getRightChild());
+            }
+        }
+
+        return $ret;
     }
 
     /**
      * gets the root of the rope
      * @return ?RopeNode the Node of the root or null of not set
      */
-    function getRoot() : ?RopeNode
+    public function getRoot() : ?RopeNode
     {
         return $this->root;
     }
