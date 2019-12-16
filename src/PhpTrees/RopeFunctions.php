@@ -11,7 +11,14 @@ use PhpTrees\RopeNode;
  */
 function concatRope(Rope $r1, Rope $r2) : Rope
 {
-    //TODO need to handle null cases here
+    if ($r1->length() === 0 && $r2->length() !== 0) {
+        return $r2;
+    }
+
+    if ($r2->length() === 0) {
+        return $r1;
+    }
+
     $ret = new Rope("");
     $ret->getRoot()->addLeftChild($r1->getRoot());
     $ret->getRoot()->addRightChild($r2->getRoot());
@@ -38,9 +45,7 @@ function splitRope(Rope $rope, int $index) : array
     //TODO split for larger ropes, need to traverse back up the tree and add back to r2, and take from r1
 
     return [$r1, $r2];
-
 }
-
 
 
 // insertBetween($index, $s) inserts a string at the given position

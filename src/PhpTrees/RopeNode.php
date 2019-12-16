@@ -4,10 +4,15 @@ namespace PhpTrees;
 
 class RopeNode
 {
+    /* THe value of the node */
     private $value = null;
+    /* the left child of the node */
     private $left = null;
+    /* the right child of the node */
     private $right = null;
+    /* the nodes parent */
     private $parent = null;
+    /* the weight of the node, representing the value length */
     private $weight = 0;
 
     /**

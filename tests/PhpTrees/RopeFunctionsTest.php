@@ -17,7 +17,20 @@ final class RopeFunctionsTest extends TestCase
         $this->assertSame($concat->getRoot()->getWeight(), 7);
         $this->assertSame($concat->length(), 13);
 
-        //TODO handle null cases
+        $r = new Rope("words 1");
+        $r2 = new Rope();
+        $concat = concatRope($r, $r2);
+        $this->assertSame($r, $concat);
+
+        $r = new Rope();
+        $r2 = new Rope("words 2");
+        $concat = concatRope($r, $r2);
+        $this->assertSame($r2, $concat);
+
+        $r = new Rope();
+        $r2 = new Rope();
+        $concat = concatRope($r, $r2);
+        $this->assertSame($r, $concat);
     }
 
     public function testSplit()
