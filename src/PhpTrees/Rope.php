@@ -45,11 +45,21 @@ class Rope
     /**
      * inserts the given string into the rope
      * @param string $value the value to insert
-     * @param int $the position to insert to, if not given, insert at the end
+     * @param int $index the position to insert to, if not given, insert at the end
      */
     public function insert(string $value, int $index = null) : void
     {
+        if ($index > $this->length()) {
+            $r = concatRope($this, new Rope($value));
+        }
+        else {
+            $ropes = splitRope($this, $index);
+            $dummy = new Rope($value);
+            $r = concatRope($ropes[0], $dummy);
+            $r = concatRope($r, $ropes[1]);
+        }
 
+        $this->root = $r->getRoot();
     }
 
     /**
@@ -118,11 +128,24 @@ class Rope
     /**
      * removes the substring between the 2 indexes
      * @param int $start the index to start from
-     * @param int $end the index to end on, if not given defaults to the end of the rope
+     * @param int $length the length of the sub-string, the end of the string if none is given
      */
-    public function removeSubstr(int $start, int $end = null) : void
+    public function removeSubstr(int $start, int $length = null) : void
     {
+        if ($start >= $this->length() || $length === 0) {
+            return;
+        }
 
+        if ($length === null || $start + $length > $this->length()) {
+            $c = splitRope($this, $start)[0];
+        }
+        else {
+            $end = $start + $length;
+            $r1 = splitRope($this, $start);
+            $r2 = splitRope($r1[1], $end - $start);
+            $c = concatRope($r1[0], $r2[1]);
+        }
+        $this->root = $c->getRoot();
     }
 
     /**
@@ -164,4 +187,17 @@ class Rope
     // THOUGHTS
     // this could implement PHP ArrayAccess interface (offsetExists, offsetGet, offsetSet, offsetUnset)
     // is there need to implement iterators here>
+
+    ///////////////////////////////
+    //php functions
+    //////////////////////////////
+
+    /**
+     * returns a string of the rope for PHP to read in such instances as 'echo $rope'
+     * @return string a printable representation of the rope
+     */
+    public function __toString() : string
+    {
+        return $this->toString();
+    }
 }

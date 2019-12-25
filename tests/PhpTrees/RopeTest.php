@@ -72,6 +72,39 @@ final class RopeTest extends TestCase
         $r = concatRope($r, $r2);
         $r = concatRope($r, $r3);
         $this->assertSame($r->toString(), "TestWordThree");
+    }
 
+    public function testInsert()
+    {
+        $r = new Rope("this is test");
+        $r->insert("another ", 8);
+        $this->assertSame($r->toString(), "this is another test");
+
+        $r = new Rope("this is test");
+        $r->insert("another ", 18);
+        $this->assertSame($r->toString(), "this is testanother ");
+    }
+
+    public function testRemoveSubStr()
+    {
+        $r = new Rope("this is test");
+        $r->removeSubstr(2, 2);
+        $this->assertSame($r->toString(), "th is test");
+
+        $r = new Rope("this is test");
+        $r->removeSubstr(22, 45);
+        $this->assertSame($r->toString(), "this is test");
+
+        $r = new Rope("this is test");
+        $r->removeSubstr(2, 42);
+        $this->assertSame($r->toString(), "th");
+
+        $r = new Rope("this is test");
+        $r->removeSubstr(0, 1);
+        $this->assertSame($r->toString(), "his is test");
+
+        $r = new Rope("this is test");
+        $r->removeSubstr(3, 0);
+        $this->assertSame($r->toString(), "this is test");
     }
 }

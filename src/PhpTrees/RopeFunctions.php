@@ -64,5 +64,3 @@ function splitRope(Rope $rope, int $index) : array
 
     return [$r1, $r2];
 }
-
-// insertBetween($index, $s) inserts a string at the given position
