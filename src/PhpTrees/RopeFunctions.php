@@ -42,10 +42,27 @@ function splitRope(Rope $rope, int $index) : array
     $node = $r1->splitNodeAtPosition($index);
     $n = $node->removeRightChildren();
     $r2 = new Rope($n->getValue());
-    //TODO split for larger ropes, need to traverse back up the tree and add back to r2, and take from r1
+
+    $cursor = $node;
+    $lastCursor = null;
+    while ($cursor !== null) {
+        if ($cursor->getRightChild() !== null && $cursor->getRightChild() !== $lastCursor) {
+            $node = $cursor->removeRightChildren();
+            if ($node->hasChildren() === false) {
+                $dummy = new Rope($node->getValue());
+            }
+            else {
+                $dummy = new Rope();
+                $dummy->constructFromNode($node);
+            }
+            $r2 = concatRope($r2, $dummy);
+        }
+
+        $lastCursor = $cursor;
+        $cursor = $cursor->getParent();
+    }
 
     return [$r1, $r2];
 }
-
 
 // insertBetween($index, $s) inserts a string at the given position

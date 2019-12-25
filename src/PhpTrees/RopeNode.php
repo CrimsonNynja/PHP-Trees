@@ -54,11 +54,12 @@ class RopeNode
     }
 
     /**
-     * adds a lerightft child to the node and removes the value
+     * adds a right child to the node and removes the value
      * @param RopeNode $node the node to add
      */
     public function addRightChild(RopeNode $node) : void
     {
+        $node->setParent($this);
         $this->right = $node;
         $this->value = null;
         if ($this->left === null) {
@@ -75,6 +76,7 @@ class RopeNode
         $this->left = $node;
         $this->weight = $this->getLeftChild()->getLeafWeights($node);
         $this->value = null;
+        $this->left->parent = $this;
     }
 
     /**
@@ -159,5 +161,14 @@ class RopeNode
     public function getRightChild() : ?RopeNode
     {
         return $this->right;
+    }
+
+    /**
+     * sets the nodes parent to the given node
+     * @param RopeNode $parent the parent to set to
+     */
+    public function setParent(?RopeNode $parent) : void
+    {
+        $this->parent = $parent;
     }
 }

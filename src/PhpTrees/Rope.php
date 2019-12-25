@@ -21,6 +21,16 @@ class Rope
     }
 
     /**
+     * constructs the rope from the given noe
+     * @param $node the node to construct from
+     */
+    public function constructFromNode(RopeNode $node) : void
+    {
+        $node->setParent(null);
+        $this->root = $node;
+    }
+
+    /**
      * returns the length of the text
      * @return int length of the rope's text, 0 if the rope is empty
      */

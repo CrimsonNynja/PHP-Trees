@@ -35,6 +35,8 @@ final class RopeNodeTest extends TestCase
         $this->assertSame($n->getWeight(), 0);
         $this->assertNull($n->getValue());
         $this->assertSame($n->getRightChild()->getValue(), "test2");
+        $this->assertSame($n->getRightChild()->getParent(), $n);
+
 
         $n = new PhpTrees\RopeNode("test");
         $n->addLeftChild(new PhpTrees\RopeNode("test2"));
@@ -57,6 +59,7 @@ final class RopeNodeTest extends TestCase
         $this->assertSame($n->getWeight(), 5);
         $this->assertNull($n->getValue());
         $this->assertSame($n->getLeftChild()->getValue(), "test2");
+        $this->assertSame($n->getLeftChild()->getParent(), $n);
     }
 
     public function testGetLeafWeights()
