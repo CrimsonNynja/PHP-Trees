@@ -21,7 +21,7 @@ class Rope
     }
 
     /**
-     * constructs the rope from the given noe
+     * constructs the rope from the given node
      * @param $node the node to construct from
      */
     public function constructFromNode(RopeNode $node) : void
@@ -117,12 +117,34 @@ class Rope
     /**
      * gets the substring between the 2 indexes
      * @param int $start the index to start from
-     * @param int $end the index to end on, if not given defaults to the end of the rope
+     * @param int $length the length of the substring, if none given, defaults to the end of the string
      * @return string the substring found
      */
-    public function substr(int $start, int $end = null) : string
+    public function substr(int $start, int $length = null) : string
     {
+        if ($start > $this->length()) {
+            return "";
+        }
 
+        $length = ($length === null ? $this->length() : $length);
+        $end = $start + $length;
+        if ($end > $this->length()) {
+            $length = $this->length() - $start;
+        }
+
+        $ret = "";
+        while (strlen($ret) < $length) {
+            $index = $start + strlen($ret);
+            $node = $this->getNodeOfIndex($index);
+            for ($i = $index; $i < strlen($node->getValue()); $i++) {
+                if (strlen($ret) < $length) {
+                    $ret .= $node->getValue()[$i];
+                }
+            }
+            $end -= strlen($ret);
+        }
+
+        return $ret;
     }
 
     /**
@@ -182,6 +204,35 @@ class Rope
     public function getRoot() : ?RopeNode
     {
         return $this->root;
+    }
+
+    /**
+     * gets node of the given index and sets index to the required index of the node for the given index
+     * @param int &$index the index to find
+     * @param RopeNode $node the node to recurse on
+     * @return RopeNode the node of the given index
+     */
+    private function getNodeOfIndex(int &$index, RopeNode $node = null) : ?RopeNode
+    {
+        if ($node === null) {
+            $node = $this->root;
+        }
+        if ($node === null) {
+            return null;
+        }
+
+        if ($node->getWeight() <= $index && $node->getRightChild() !== null) {
+            $index = $index - $node->getWeight();
+            return $this->getNodeOfIndex($index, $node->getRightChild());
+        }
+        if ($node->getLeftChild() !== null) {
+            return $this->getNodeOfIndex($index, $node->getLeftChild());
+        }
+        if (strlen($node->getValue()) > $index) {
+            $index;
+            return $node;
+        }
+        return null;
     }
 
     // THOUGHTS
