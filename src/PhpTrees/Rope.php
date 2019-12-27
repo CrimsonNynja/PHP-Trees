@@ -4,7 +4,7 @@ namespace PhpTrees;
 
 use PhpTrees\RopeNode;
 
-class Rope
+class Rope implements \ArrayAccess
 {
     /* the root of the tree */
     private $root = null;
@@ -49,7 +49,11 @@ class Rope
      */
     public function insert(string $value, int $index = null) : void
     {
-        if ($index > $this->length()) {
+        if ($index === null) {
+            $index = $this->length();
+        }
+
+        if ($index >= $this->length()) {
             $r = concatRope($this, new Rope($value));
         }
         else {
@@ -93,9 +97,9 @@ class Rope
      * splits the given node at the given position into 2 nodes
      * @param int $index the index to split at
      * @param RopeNode $node the recursive node to search
-     * @return RopeNode returns the location of the split (the new parent of the newly created nodes)
+     * @return RopeNode returns a reference to the location of the split (the new parent of the newly created nodes)
      */
-    public function splitNodeAtPosition(int $index, RopeNode $node = null) : ?RopeNode
+    public function &splitNodeAtPosition(int $index, RopeNode $node = null) : ?RopeNode
     {
         if ($node === null) {
             $node = $this->root;
@@ -212,7 +216,7 @@ class Rope
      * @param RopeNode $node the node to recurse on
      * @return RopeNode the node of the given index
      */
-    private function getNodeOfIndex(int &$index, RopeNode $node = null) : ?RopeNode
+    private function &getNodeOfIndex(int &$index, RopeNode $node = null) : ?RopeNode
     {
         if ($node === null) {
             $node = $this->root;
@@ -235,10 +239,6 @@ class Rope
         return null;
     }
 
-    // THOUGHTS
-    // this could implement PHP ArrayAccess interface (offsetExists, offsetGet, offsetSet, offsetUnset)
-    // is there need to implement iterators here>
-
     ///////////////////////////////
     //php functions
     //////////////////////////////
@@ -250,5 +250,87 @@ class Rope
     public function __toString() : string
     {
         return $this->toString();
+    }
+
+    /**
+     * clones the current rope
+     */
+    public function __clone()
+    {
+        if ($this->root !== null) {
+            $this->root = clone $this->root;
+        }
+    }
+
+    /**
+     * check if the given offset exists in the Rope
+     * @param mixed $offset the offset to check for
+     * @return bool true if the given offset exists
+     */
+    public function offsetExists($offset) : bool
+    {
+        if (is_int($offset)) {
+            if ($offset <= $this->length()) {
+                return true;
+            }
+            return false;
+        } else {
+            throw new \Exception('Rope offset must be an integer');
+        }
+    }
+
+    /**
+     * gets the index of the rope
+     * @param mixed $offset the offset to check
+     */
+    public function offsetGet($offset)
+    {
+        if (is_int($offset)) {
+            return $this->index($offset);
+        }
+        else {
+            throw new \Exception('Rope offset must be an integer');
+        }
+    }
+
+    /**
+     *
+     */
+    public function offsetSet($offset, $value) : void
+    {
+        if ($offset === null && is_string($value)) {
+            $this->insert($value);
+            return;
+        }
+
+        if (is_int($offset)) {
+            if (is_string($value) && strlen($value) === 1) {
+                $index = $offset;
+                $node = &$this->getNodeOfIndex($index);
+                $v = substr_replace($node->getValue(), $value, $index, 1);
+                $node->changeValue($v);
+
+            }
+            else {
+                throw new \Exception("Value must be a 1 char string");
+            }
+        }
+        else {
+            throw new \Exception('Rope offset must be an integer');
+        }
+    }
+
+    /**
+     * removes the character from the given index
+     * @param mixed $offset the offset to remove the character from
+     */
+    public function offsetUnset($offset) : void
+    {
+        if (is_int($offset)) {
+            $this->removeSubstr($offset, 1);
+        }
+        else {
+            throw new \Exception('Rope offset must be an integer');
+        }
     }
 }

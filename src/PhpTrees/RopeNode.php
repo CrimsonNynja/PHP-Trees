@@ -140,7 +140,7 @@ class RopeNode
      * gets the parent of the node
      * @return RopeNode the nodes parent, null if it has none
      */
-    public function getParent() : ?RopeNode
+    public function &getParent() : ?RopeNode
     {
         return $this->parent;
     }
@@ -170,5 +170,36 @@ class RopeNode
     public function setParent(?RopeNode $parent) : void
     {
         $this->parent = $parent;
+    }
+
+    /**
+     * changes the value of the node, if it is a leaf
+     * @param string $newVal the new value for the node
+     */
+    public function changeValue(string $newVal) : void
+    {
+        if ($this->hasChildren() === false) {
+            $this->value = $newVal;
+        }
+    }
+
+    ///////////////////////////////
+    //php functions
+    //////////////////////////////
+
+    /**
+     * clones the current RopeNode
+     */
+    public function __clone()
+    {
+        if ($this->left !== null) {
+            $this->left = clone $this->left;
+            $this->left->setParent($this);
+        }
+
+        if ($this->right !== null) {
+            $this->right = clone $this->right;
+            $this->right->setParent($this);
+        }
     }
 }

@@ -58,22 +58,6 @@ final class RopeTest extends TestCase
         $this->assertSame($r->length(), 13);
     }
 
-    public function testToString()
-    {
-        $r = new Rope();
-        $this->assertSame($r->toString(), "");
-
-        $r = new Rope("test");
-        $this->assertSame($r->toString(), "test");
-
-        $r = new Rope("Test");
-        $r2 = new Rope("Word");
-        $r3 = new Rope("Three");
-        $r = concatRope($r, $r2);
-        $r = concatRope($r, $r3);
-        $this->assertSame($r->toString(), "TestWordThree");
-    }
-
     public function testInsert()
     {
         $r = new Rope("this is test");
@@ -83,6 +67,10 @@ final class RopeTest extends TestCase
         $r = new Rope("this is test");
         $r->insert("another ", 18);
         $this->assertSame($r->toString(), "this is testanother ");
+
+        $r = new Rope("now this is test");
+        $r->insert("ing");
+        $this->assertSame($r->toString(), "now this is testing");
     }
 
     public function testRemoveSubStr()
@@ -123,5 +111,106 @@ final class RopeTest extends TestCase
         $this->assertSame($concat->substr(2, 4), "is i");
         $this->assertSame($concat->substr(17), "s is second test");
         $this->assertSame($concat->substr(2, 15), "is is a testthi");
+    }
+
+    public function testToString()
+    {
+        $r = new Rope();
+        $this->assertSame($r->toString(), "");
+
+        $r = new Rope("test");
+        $this->assertSame($r->toString(), "test");
+
+        $r = new Rope("Test");
+        $r2 = new Rope("Word");
+        $r3 = new Rope("Three");
+        $r = concatRope($r, $r2);
+        $r = concatRope($r, $r3);
+        $this->assertSame($r->toString(), "TestWordThree");
+    }
+
+    public function testOffsetGet()
+    {
+        $r = new Rope("test string");
+        $r2 = new Rope("second test");
+        $concat = concatRope($r, $r2);
+
+        $this->assertSame($r[0], "t");
+        $this->assertSame($r[5], "s");
+        $this->assertSame($concat[16], "d");
+        try {
+            $this->assertSame($r["test"], "a");
+            $this->fail("Exception for non integer index should be thrown");
+        } catch (Exception $e) {
+            $this->assertEquals("Rope offset must be an integer", $e->getMessage());
+        }
+    }
+
+    public function testOffsetExists()
+    {
+        $r = new Rope("test string");
+        $r2 = new Rope("second test");
+        $concat = concatRope($r, $r2);
+
+        $this->assertTrue(isset($r[0]));
+        $this->assertFalse(isset($r[67]));
+        $this->assertTrue(isset($concat[0]));
+        $this->assertTrue(isset($concat[20]));
+        $this->assertFalse(isset($concat[67]));
+
+        try {
+            $this->assertTrue(isset($concat["test"]));
+            $this->fail("Exception for non integer index should be thrown");
+        } catch (Exception $e) {
+            $this->assertEquals("Rope offset must be an integer", $e->getMessage());
+        }
+    }
+
+    public function testRemoveOffset()
+    {
+        $r = new Rope("test string");
+        $r2 = new Rope("second test");
+        $concat = concatRope($r, $r2);
+
+        unset($r[0]);
+        $this->assertSame($r->toString(), "est string");
+        unset($concat[20]);
+        $this->assertSame($concat->toString(), "test stringsecond tet");
+
+        try {
+            unset($concat["test"]);
+            $this->fail("Exception for non integer index should be thrown");
+        } catch (Exception $e) {
+            $this->assertEquals("Rope offset must be an integer", $e->getMessage());
+        }
+    }
+
+    public function testOffsetSet()
+    {
+        $r = new Rope("test string");
+        $r2 = new Rope("second test");
+        $concat = concatRope($r, $r2);
+
+
+        $r[] = 'More Words';
+        $this->assertSame($r->toString(), "test stringMore Words");
+        $r[0] = 'w';
+        $this->assertSame($r->toString(), "west stringMore Words");
+        $concat[20] = 'a';
+        $this->assertSame($concat->toString(), "test stringsecond teat");
+
+        try {
+            $concat["test"] = 'w';
+            $this->fail("Exception for non integer index should be thrown");
+        } catch (Exception $e) {
+            $this->assertEquals("Rope offset must be an integer", $e->getMessage());
+        }
+
+        try {
+            $concat[6] = 'more';
+            $this->fail("Exception for set constraints should be thrown");
+        } catch (Exception $e) {
+            $this->assertEquals("Value must be a 1 char string", $e->getMessage());
+        }
     }
 }

@@ -24,6 +24,14 @@ use PhpTrees\BinarySearchTree;
 $b = new PhpTrees\BinarySearchTree(5);
 ```
 
+To use the Rope
+
+```php
+use PhpTrees\Rope;
+
+$r = new PhpTrees\Rope("This is a Rope!");
+```
+
 This will create a binary search tree with a root of the value 5\
 For a more detailed description of the features of PHP Trees, check out the wiki\
 <https://github.com/CrimsonNynja/PHP-Trees/wiki>

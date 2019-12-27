@@ -118,4 +118,16 @@ final class RopeNodeTest extends TestCase
         $this->assertNull($n->getValue());
         $this->assertSame($n->getWeight(), 5);
     }
+
+    public function testChangeValue()
+    {
+        $n = new PhpTrees\RopeNode("words");
+        $n->changeValue("bob");
+        $this->assertSame($n->getValue(), "bob");
+
+        $n = new PhpTrees\RopeNode("words");
+        $n->addLeftChild(new PhpTrees\RopeNode("bob"));
+        $n->changeValue("bob");
+        $this->assertNull($n->getValue());
+    }
 }
