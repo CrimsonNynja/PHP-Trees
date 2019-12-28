@@ -22,7 +22,7 @@ class Node
      * constructs the node with the given value also generates a unique id for the node
      * @param mixed $value the value of the node
      */
-    public function __construct($value, Node $parent=null)
+    public function __construct($value, Node $parent = null)
     {
         $this->value = $value;
         $this->parent = $parent;
@@ -35,7 +35,7 @@ class Node
      * adds a child node to the node
      * @param mixed $value the value of the node to add
      */
-    public function addChild($value)
+    public function addChild($value) : void
     {
         if ($value >= $this->value) {
             if ($this->right === null) {
@@ -59,7 +59,7 @@ class Node
      * removes the child of the node with the given id
      * @param int $id the id of the child to remove
      */
-    public function removeChild(int $id)
+    public function removeChild(int $id) : void
     {
         if ($this->left !== null) {
             if ($this->left->getId() === $id) {
@@ -78,7 +78,7 @@ class Node
      * @param int $id the child to replace
      * @param Node $node the node to replace the child with
      */
-    public function replaceChild(int $id, Node $node)
+    public function replaceChild(int $id, Node $node) : void
     {
         if ($this->left !== null) {
             if ($this->left->getId() === $id) {
@@ -136,7 +136,7 @@ class Node
      * sets the node value
      * @param mixed $value the new value of the node
      */
-    public function setValue($value)
+    public function setValue($value) : void
     {
         $this->value = $value;
     }
@@ -175,5 +175,34 @@ class Node
     public function getParent() : ?Node
     {
         return $this->parent;
+    }
+
+    /**
+     * sets the current parent to the given parent
+     * @param Node $parent the new parent to be set to
+     */
+    public function setParent(Node $parent) : void
+    {
+        $this->parent = $parent;
+    }
+
+    //////////////////////////////////
+    //Iterator functions
+    //////////////////////////////////
+
+    /**
+     * allows the BST to be cloned correctly
+     */
+    public function __clone()
+    {
+        if ($this->left !== null) {
+            $this->left = clone $this->left;
+            $this->left->setParent($this);
+        }
+
+        if ($this->right !== null) {
+            $this->right = clone $this->right;
+            $this->right->setParent($this);
+        }
     }
 }

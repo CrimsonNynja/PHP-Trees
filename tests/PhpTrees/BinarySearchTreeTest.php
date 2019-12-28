@@ -209,4 +209,23 @@ final class BinarySearchTreeTest extends TestCase
         }
         $this->assertSame($result, [1, 3, 4, 5, 6, 7, 8, 10, 11, 12, 13, 15, 17, 20, 22]);
     }
+
+    public function testClone()
+    {
+        $b = new PhpTrees\BinarySearchTree(10);
+        $b->insertMultiple(5, 15, 3, 7, 12, 20, 4, 6, 8, 11, 13, 17, 22);
+        $result = [];
+        foreach($b as $node) {
+            $result[] = $node;
+        }
+        $this->assertSame($result, [3, 4, 5, 6, 7, 8, 10, 11, 12, 13, 15, 17, 20, 22]);
+
+        $c = clone $b;
+        $c->insert(34);
+        $c->insert(1);
+        $this->assertSame($c->getMinValue(), 1);
+        $this->assertSame($b->getMinValue(), 3);
+        $this->assertSame($c->getMaxValue(), 34);
+        $this->assertSame($b->getMaxValue(), 22);
+    }
 }

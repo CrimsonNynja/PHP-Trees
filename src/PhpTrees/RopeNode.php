@@ -2,6 +2,9 @@
 
 namespace PhpTrees;
 
+/**
+ * The node for the rope class
+ */
 class RopeNode
 {
     /* THe value of the node */

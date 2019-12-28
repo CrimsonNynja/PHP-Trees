@@ -130,4 +130,31 @@ final class RopeNodeTest extends TestCase
         $n->changeValue("bob");
         $this->assertNull($n->getValue());
     }
+
+    public function testRemoveRightChild()
+    {
+        $n = new PhpTrees\RopeNode();
+        $c = $n->removeRightChildren();
+        $this->assertNull($c);
+        $this->assertNull($n->getRightChild());
+
+        $n = new PhpTrees\RopeNode();
+        $n->addLeftChild(new RopeNode("ln"));
+        $c = $n->removeRightChildren();
+        $this->assertNull($c);
+        $this->assertNull($n->getRightChild());
+
+        $n = new PhpTrees\RopeNode();
+        $n->addRightChild(new RopeNode("rn"));
+        $c = $n->removeRightChildren();
+        $this->assertSame($c->getValue(), "rn");
+        $this->assertNull($n->getRightChild());
+
+        $n = new PhpTrees\RopeNode();
+        $n->addLeftChild(new RopeNode("ln"));
+        $n->addRightChild(new RopeNode("rn"));
+        $c = $n->removeRightChildren();
+        $this->assertSame($c->getValue(), "rn");
+        $this->assertNull($n->getRightChild());
+    }
 }
