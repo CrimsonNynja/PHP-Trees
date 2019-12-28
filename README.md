@@ -1,7 +1,6 @@
 # PHP-Trees
 
-![GitHub Workflow build status badge](https://github.com/CrimsonNynja/PHP-Trees/workflows/Unit%20Tests/badge.svg)
-
+![GitHub Workflow build status badge](https://github.com/CrimsonNynja/PHP-Trees/workflows/Unit%20Tests/badge.svg) [![Latest Stable Version](https://poser.pugx.org/crimson-nynja/php-trees/v/stable)](https://packagist.org/packages/crimson-nynja/php-trees)
 
 This repo is designed to have all common trees used in an easy to use php way
 
