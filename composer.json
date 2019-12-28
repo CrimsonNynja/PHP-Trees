@@ -24,6 +24,7 @@
         "phpunit/phpunit": "^8"
     },
     "scripts": {
-        "test": "./vendor/bin/phpunit --colors=always --bootstrap vendor/autoload.php tests"
+        "test": "./vendor/bin/phpunit --colors=always --bootstrap vendor/autoload.php tests",
+        "coverage": "./vendor/bin/phpunit -c phpunit.coverage.xml --do-not-cache-result"
     }
 }
