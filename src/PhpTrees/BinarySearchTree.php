@@ -32,7 +32,7 @@ class BinarySearchTree implements \Iterator
      * adds a node to the tree
      * @param mixed $value the value to add to the tree
      */
-    public function insert($value)
+    public function insert($value) : void
     {
         if ($this->root !== null) {
             $this->root->addChild($value);
@@ -46,7 +46,7 @@ class BinarySearchTree implements \Iterator
      * inserts multiple entries in the tree in order
      * @param mixed ...$values the values to insert, inserted in the order they are given in
      */
-    public function insertMultiple(...$values)
+    public function insertMultiple(...$values) : void
     {
         foreach($values as $value)
         {
@@ -126,7 +126,7 @@ class BinarySearchTree implements \Iterator
      * @param Node $node the node to recurse on
      * @return Node the minimum node
      */
-    private function getMinNode(Node $node = null)
+    private function getMinNode(Node $node = null) : Node
     {
         if ($node === null) {
             $node = $this->root;
@@ -158,7 +158,7 @@ class BinarySearchTree implements \Iterator
      * @param Node $node the node to recurse on
      * @return Node the maximum node
      */
-    private function getMaxNode(Node $node = null)
+    private function getMaxNode(Node $node = null) : Node
     {
         if ($node === null) {
             $node = $this->root;
@@ -189,7 +189,7 @@ class BinarySearchTree implements \Iterator
      * deletes the given node from the tree
      * @param Node $node the node to delete
      */
-    public function delete(Node $node)
+    public function delete(Node $node) : void
     {
         if ($node->getLeftChild() === null && $node->getRightChild() === null) {
             //no children
@@ -227,8 +227,19 @@ class BinarySearchTree implements \Iterator
     //////////////////////////////////
 
     /**
+     * allows the BST to be cloned correctly
+     * also resets the iterator to the default
+     */
+    public function __clone()
+    {
+        $this->root = clone $this->root;
+        $this->iteratorPosition = false;
+        $this->iteratorStack = null;
+    }
+
+    /**
      * gets the current value of the iterator
-     * @return mixed the value of the currently on node
+     * @return mixed the value of the current pointed at node
      */
     public function current()
     {

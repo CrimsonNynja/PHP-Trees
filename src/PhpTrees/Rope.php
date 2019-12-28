@@ -4,6 +4,9 @@ namespace PhpTrees;
 
 use PhpTrees\RopeNode;
 
+/**
+ * implementation of a Rope, a way to represent text through a tree
+ */
 class Rope implements \ArrayAccess
 {
     /* the root of the tree */
