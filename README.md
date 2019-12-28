@@ -1,6 +1,7 @@
 # PHP-Trees
 
-[![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2FCrimsonNynja%2FPHP-Trees%2Fbadge&style=popout)](https://actions-badge.atrox.dev/CrimsonNynja/PHP-Trees/goto)
+![GitHub Workflow build status badge](https://github.com/CrimsonNynja/PHP-Trees/workflows/Unit%20Tests/badge.svg)
+
 
 This repo is designed to have all common trees used in an easy to use php way
 
