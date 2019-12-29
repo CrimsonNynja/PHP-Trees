@@ -73,5 +73,9 @@ final class NodeTest extends TestCase
         $n->addChild(8);
         $this->assertFalse($n->hasChild(new Node(9)));
         $this->assertTrue(($n->hasChild($n->getRightChild())));
+
+        $n->addChild(2);
+        $this->assertFalse($n->hasChild(new Node(2)));
+        $this->assertTrue(($n->hasChild($n->getLeftChild())));
     }
 }
