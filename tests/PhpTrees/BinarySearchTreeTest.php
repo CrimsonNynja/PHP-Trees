@@ -60,6 +60,9 @@ final class BinarySearchTreeTest extends TestCase
         $this->assertSame($b->getMinValue(), 5);
         $b->insert(3);
         $this->assertSame($b->getMinValue(), 3);
+
+        $b = new PhpTrees\BinarySearchTree();
+        $this->assertNull($b->getMinValue());
     }
 
     public function testGetMaxValue()
@@ -70,6 +73,9 @@ final class BinarySearchTreeTest extends TestCase
         $this->assertSame($b->getMaxValue(), 7);
         $b->insert(3);
         $this->assertSame($b->getMaxValue(), 7);
+
+        $b = new PhpTrees\BinarySearchTree();
+        $this->assertNull($b->getMaxValue());
     }
 
     public function testHasValue()

@@ -213,4 +213,11 @@ final class RopeTest extends TestCase
             $this->assertEquals("Value must be a 1 char string", $e->getMessage());
         }
     }
+
+    public function test__toString()
+    {
+        $r = new Rope("words");
+        $this->expectOutputString("words");
+        echo $r;
+    }
 }
