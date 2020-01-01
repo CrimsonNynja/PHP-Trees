@@ -17,27 +17,27 @@ class BinarySearchTree implements \Iterator
     /* used for iterating through the tree */
     private $iteratorStack = null;
     /* if set, used to comparing non literal values */
-    private $comparitor = null;
+    private $comparator = null;
 
     /**
      * constructs a new BinarySearchTree
      * @param mixed $rootValue the initial value of the tree's root
      */
-    public function __construct($rootValue = null, ?callable $comparitor = null)
+    public function __construct($rootValue = null, ?callable $comparator = null)
     {
         if ($rootValue !== null) {
             $this->root = new BstNode($rootValue);
         }
-        if ($comparitor !== null) {
-            $this->setComparitor($comparitor);
+        if ($comparator !== null) {
+            $this->setComparator($comparator);
         }
     }
 
-    public function setComparitor(callable $comparitor) : void
+    public function setComparator(callable $comparator) : void
     {
-        $this->comparitor = $comparitor;
+        $this->comparator = $comparator;
         if ($this->root !== null) {
-            $this->root->setComparitor($this->comparitor);
+            $this->root->setComparator($this->comparator);
         }
     }
 
@@ -52,8 +52,8 @@ class BinarySearchTree implements \Iterator
         }
         else {
             $this->root = new BstNode($value);
-            if ($this->comparitor !== null) {
-                $this->root->setComparitor($this->comparitor);
+            if ($this->comparator !== null) {
+                $this->root->setComparator($this->comparator);
             }
         }
     }
@@ -98,8 +98,8 @@ class BinarySearchTree implements \Iterator
             return $node;
         }
         else {
-            if ($this->comparitor !== null) {
-                return $this->findComparitor($value, $node);
+            if ($this->comparator !== null) {
+                return $this->findComparator($value, $node);
             }
             if ($value > $node->getValue() && $node->getRightChild() !== null) {
                 return $this->find($value, $node->getRightChild());
@@ -112,13 +112,13 @@ class BinarySearchTree implements \Iterator
     }
 
     /**
-     * finds a node based on the given comparitor
+     * finds a node based on the given comparator
      * @param mixed $value the value to look for
      * @return BstNode the node with the given value or null
      */
-    private function findComparitor($value, BstNode $node = null) : ?BstNode
+    private function findComparator($value, BstNode $node = null) : ?BstNode
     {
-        $cmp = $this->comparitor->__invoke($node->getValue(), $value);
+        $cmp = $this->comparator->__invoke($node->getValue(), $value);
         if ($cmp === true && $node->getRightChild() !== null) {
             return $this->find($value, $node->getRightChild());
         }
@@ -265,12 +265,12 @@ class BinarySearchTree implements \Iterator
     }
 
     /**
-     * if the tree has a custom comparitor or not
-     * @return bool true if a custom comparitor has been set
+     * if the tree has a custom comparator or not
+     * @return bool true if a custom comparator has been set
      */
-    public function hasComparitor() : bool
+    public function hasComparator() : bool
     {
-        if ($this->comparitor !== null) {
+        if ($this->comparator !== null) {
             return true;
         }
         return false;

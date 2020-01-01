@@ -18,7 +18,7 @@ class BstNode
     /* the node's id, used for iterating over the tree */
     private $id = 0;
     /* if set, used to comparing non literal values */
-    private $comparitor = null;
+    private $comparator = null;
 
     /**
      * constructs the node with the given value also generates a unique id for the node
@@ -35,12 +35,12 @@ class BstNode
     }
 
     /**
-     * sets the comparitor for the tree
-     * @param callable $comparitor the comparitor to use when adding children must take in 2 values the nodes value, and the value to add, and return a boolean denoting if the new value is higher or equal to the current one
+     * sets the comparator for the tree
+     * @param callable $comparator the comparator to use when adding children must take in 2 values the nodes value, and the value to add, and return a boolean denoting if the new value is higher or equal to the current one
      */
-    public function setComparitor(callable $comparitor) : void
+    public function setComparator(callable $comparator) : void
     {
-        $this->comparitor = $comparitor;
+        $this->comparator = $comparator;
     }
 
     /**
@@ -49,8 +49,8 @@ class BstNode
      */
     public function addChild($value) : void
     {
-        if ($this->comparitor !== null) {
-            $this->addChildComparitor($value);
+        if ($this->comparator !== null) {
+            $this->addChildComparator($value);
             return;
         }
         if ($value >= $this->value) {
@@ -71,25 +71,25 @@ class BstNode
         }
     }
 
-    private function addChildComparitor($value) : void
+    private function addChildComparator($value) : void
     {
-        $cmp = $this->comparitor->__invoke($this->value, $value);
+        $cmp = $this->comparator->__invoke($this->value, $value);
         if ($cmp === true) {
             if ($this->right === null) {
                 $this->right = new BstNode($value, $this);
-                $this->right->setComparitor($this->comparitor);
+                $this->right->setComparator($this->comparator);
             }
             else {
-                $this->right->addChildComparitor($value);
+                $this->right->addChildComparator($value);
             }
         }
         else {
             if ($this->left === null) {
                 $this->left = new BstNode($value, $this);
-                $this->left->setComparitor($this->comparitor);
+                $this->left->setComparator($this->comparator);
             }
             else {
-                $this->left->addChildComparitor($value);
+                $this->left->addChildComparator($value);
             }
         }
     }
@@ -227,11 +227,11 @@ class BstNode
     }
 
     /**
-     * checks if the node has a custom comparitor set
+     * checks if the node has a custom comparator set
      */
-    public function hasComparitor() : bool
+    public function hasComparator() : bool
     {
-        if ($this->comparitor === null) {
+        if ($this->comparator === null) {
             return false;
         }
         return true;

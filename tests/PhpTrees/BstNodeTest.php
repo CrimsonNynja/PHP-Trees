@@ -79,10 +79,10 @@ final class BstNodeTest extends TestCase
         $this->assertTrue(($n->hasChild($n->getLeftChild())));
     }
 
-    public function testAddComparitor()
+    public function testAddComparator()
     {
         $n = new BstNode("12345");
-        $n->setComparitor(function($val, $val2) {
+        $n->setComparator(function($val, $val2) {
             return (strlen($val) <= strlen($val2));
         });
         $n->addChild("1234");
@@ -97,14 +97,14 @@ final class BstNodeTest extends TestCase
         $this->assertSame($n->getLeftChild()->getRightChild()->getValue(), "1234");
     }
 
-    public function testHasComparitor()
+    public function testHasComparator()
     {
         $n = new BstNode("12345");
-        $this->assertFalse($n->hasComparitor());
+        $this->assertFalse($n->hasComparator());
 
-        $n->setComparitor(function($v, $v2){
+        $n->setComparator(function($v, $v2){
             return true;
         });
-        $this->assertTrue($n->hasComparitor());
+        $this->assertTrue($n->hasComparator());
     }
 }

@@ -235,16 +235,16 @@ final class BinarySearchTreeTest extends TestCase
         $this->assertSame($b->getMaxValue(), 22);
     }
 
-    public function testComparitor()
+    public function testComparator()
     {
         $b = new PhpTrees\BinarySearchTree("12345", function($val, $val2) {
             return (strlen($val) <= strlen($val2));
         });
-        $this->assertTrue($b->hasComparitor());
+        $this->assertTrue($b->hasComparator());
 
         $b = new PhpTrees\BinarySearchTree();
-        $this->assertFalse($b->hasComparitor());
-        $b->setComparitor(function($val, $val2) {
+        $this->assertFalse($b->hasComparator());
+        $b->setComparator(function($val, $val2) {
             return (strlen($val) <= strlen($val2));
         });
 
