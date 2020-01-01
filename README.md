@@ -40,10 +40,9 @@ For a more detailed description of the features of PHP Trees, check out the wiki
 
 ## Coming up
 
-custom comparators for inserting any type (BST)\
 tree balancing options\
 2-3 tree\
 Heep\
 B-Tree\
 Generic Tree\
-search/traversal types (depth first search breadth first search, etc)\
+search/traversal types (depth first search breadth first search, etc)

@@ -5,7 +5,7 @@ namespace PhpTrees;
 /**
  * Node of a tree
  */
-class Node
+class BstNode
 {
     /* the nodes value */
     private $value = null;
@@ -17,12 +17,15 @@ class Node
     private $parent = null;
     /* the node's id, used for iterating over the tree */
     private $id = 0;
+    /* if set, used to comparing non literal values */
+    private $comparitor = null;
 
     /**
      * constructs the node with the given value also generates a unique id for the node
      * @param mixed $value the value of the node
+     * @param BstNode $parent the nodes parent node
      */
-    public function __construct($value, Node $parent = null)
+    public function __construct($value, BstNode $parent = null)
     {
         $this->value = $value;
         $this->parent = $parent;
@@ -32,14 +35,27 @@ class Node
     }
 
     /**
+     * sets the comparitor for the tree
+     * @param callable $comparitor the comparitor to use when adding children must take in 2 values the nodes value, and the value to add, and return a boolean denoting if the new value is higher or equal to the current one
+     */
+    public function setComparitor(callable $comparitor) : void
+    {
+        $this->comparitor = $comparitor;
+    }
+
+    /**
      * adds a child node to the node
      * @param mixed $value the value of the node to add
      */
     public function addChild($value) : void
     {
+        if ($this->comparitor !== null) {
+            $this->addChildComparitor($value);
+            return;
+        }
         if ($value >= $this->value) {
             if ($this->right === null) {
-                $this->right = new Node($value, $this);
+                $this->right = new BstNode($value, $this);
             }
             else {
                 $this->right->addChild($value);
@@ -47,10 +63,33 @@ class Node
         }
         else {
             if ($this->left === null) {
-                $this->left = new Node($value, $this);
+                $this->left = new BstNode($value, $this);
             }
             else {
                 $this->left->addChild($value);
+            }
+        }
+    }
+
+    private function addChildComparitor($value) : void
+    {
+        $cmp = $this->comparitor->__invoke($this->value, $value);
+        if ($cmp === true) {
+            if ($this->right === null) {
+                $this->right = new BstNode($value, $this);
+                $this->right->setComparitor($this->comparitor);
+            }
+            else {
+                $this->right->addChildComparitor($value);
+            }
+        }
+        else {
+            if ($this->left === null) {
+                $this->left = new BstNode($value, $this);
+                $this->left->setComparitor($this->comparitor);
+            }
+            else {
+                $this->left->addChildComparitor($value);
             }
         }
     }
@@ -76,9 +115,9 @@ class Node
     /**
      * replaces the given child with the given node
      * @param int $id the child to replace
-     * @param Node $node the node to replace the child with
+     * @param BstNode $node the node to replace the child with
      */
-    public function replaceChild(int $id, Node $node) : void
+    public function replaceChild(int $id, BstNode $node) : void
     {
         if ($this->left !== null) {
             if ($this->left->getId() === $id) {
@@ -107,8 +146,9 @@ class Node
 
     /**
      * checks if any of the nodes child nodes are the given node
+     * @param BstNode $child the child to check the presence of
      */
-    public function hasChild(Node $child) : bool
+    public function hasChild(BstNode $child) : bool
     {
         if ($this->left !== null) {
             if ($this->left->getId() === $child->getId()) {
@@ -145,7 +185,7 @@ class Node
      * gets the right child of the node if it exists
      * @return ?Node the right child or null
      */
-    public function getRightChild() : ?Node
+    public function getRightChild() : ?BstNode
     {
         return $this->right;
     }
@@ -154,7 +194,7 @@ class Node
      * gets the left child of the node if it exists
      * @return ?Node the left child or null
      */
-    public function getLeftChild() : ?Node
+    public function getLeftChild() : ?BstNode
     {
         return $this->left;
     }
@@ -170,20 +210,31 @@ class Node
 
     /**
      * gets the parent of the current node
-     * @return ?Node the parent node or null (if the root)
+     * @return BstNode the parent node or null (if the root)
      */
-    public function getParent() : ?Node
+    public function getParent() : ?BstNode
     {
         return $this->parent;
     }
 
     /**
      * sets the current parent to the given parent
-     * @param Node $parent the new parent to be set to
+     * @param BstNode $parent the new parent to be set to
      */
-    public function setParent(Node $parent) : void
+    public function setParent(BstNode $parent) : void
     {
         $this->parent = $parent;
+    }
+
+    /**
+     * checks if the node has a custom comparitor set
+     */
+    public function hasComparitor() : bool
+    {
+        if ($this->comparitor === null) {
+            return false;
+        }
+        return true;
     }
 
     //////////////////////////////////

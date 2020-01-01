@@ -2,7 +2,7 @@
 
 use PHPUnit\Framework\TestCase;
 use PhpTrees\BinarySearchTree;
-use PhpTrees\Node;
+use PhpTrees\BstNode;
 
 final class BinarySearchTreeTest extends TestCase
 {
@@ -233,5 +233,34 @@ final class BinarySearchTreeTest extends TestCase
         $this->assertSame($b->getMinValue(), 3);
         $this->assertSame($c->getMaxValue(), 34);
         $this->assertSame($b->getMaxValue(), 22);
+    }
+
+    public function testComparitor()
+    {
+        $b = new PhpTrees\BinarySearchTree("12345", function($val, $val2) {
+            return (strlen($val) <= strlen($val2));
+        });
+        $this->assertTrue($b->hasComparitor());
+
+        $b = new PhpTrees\BinarySearchTree();
+        $this->assertFalse($b->hasComparitor());
+        $b->setComparitor(function($val, $val2) {
+            return (strlen($val) <= strlen($val2));
+        });
+
+        $b->insertMultiple("12345", "12", "123", "123456", "1");
+
+        $this->assertSame($b->getRoot()->getValue(), "12345");
+        $this->assertSame($b->getRoot()->getLeftChild()->getValue(), "12");
+        $this->assertSame($b->getRoot()->getLeftChild()->getRightChild()->getValue(), "123");
+        $this->assertSame($b->getRoot()->getRightChild()->getValue(), "123456");
+        $this->assertSame($b->getRoot()->getLeftChild()->getLeftChild()->getValue(), "1");
+
+        $this->assertNotNull($b->find("12345"));
+        $this->assertNotNull($b->find("12"));
+        $this->assertNotNull($b->find("123"));
+        $this->assertNotNull($b->find("123456"));
+        $this->assertNotNull($b->find("1"));
+        $this->assertNull($b->find("78"));
     }
 }

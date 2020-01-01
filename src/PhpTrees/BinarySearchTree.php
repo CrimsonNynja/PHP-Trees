@@ -2,7 +2,7 @@
 
 namespace PhpTrees;
 
-use PhpTrees\Node;
+use PhpTrees\BstNode;
 use PhpTrees\Stack;
 
 /**
@@ -16,15 +16,28 @@ class BinarySearchTree implements \Iterator
     private $iteratorPosition = false;
     /* used for iterating through the tree */
     private $iteratorStack = null;
+    /* if set, used to comparing non literal values */
+    private $comparitor = null;
 
     /**
      * constructs a new BinarySearchTree
      * @param mixed $rootValue the initial value of the tree's root
      */
-    public function __construct($rootValue = null)
+    public function __construct($rootValue = null, ?callable $comparitor = null)
     {
         if ($rootValue !== null) {
-            $this->root = new Node($rootValue);
+            $this->root = new BstNode($rootValue);
+        }
+        if ($comparitor !== null) {
+            $this->setComparitor($comparitor);
+        }
+    }
+
+    public function setComparitor(callable $comparitor) : void
+    {
+        $this->comparitor = $comparitor;
+        if ($this->root !== null) {
+            $this->root->setComparitor($this->comparitor);
         }
     }
 
@@ -38,7 +51,10 @@ class BinarySearchTree implements \Iterator
             $this->root->addChild($value);
         }
         else {
-            $this->root = new Node($value);
+            $this->root = new BstNode($value);
+            if ($this->comparitor !== null) {
+                $this->root->setComparitor($this->comparitor);
+            }
         }
     }
 
@@ -56,9 +72,9 @@ class BinarySearchTree implements \Iterator
 
     /**
      * gets the Node of the trees root
-     * @return Node the roots
+     * @return BstNode the roots
      */
-    public function getRoot() : ?Node
+    public function getRoot() : ?BstNode
     {
         return $this->root;
     }
@@ -66,9 +82,9 @@ class BinarySearchTree implements \Iterator
     /**
      * returns the node of the given value
      * @param mixed $value the value to look for
-     * @return Node the node with the given value or null
+     * @return BstNode the node with the given value or null
      */
-    public function find($value, Node $node = null) : ?Node
+    public function find($value, BstNode $node = null) : ?BstNode
     {
         if ($node === null) {
             $node = $this->root;
@@ -82,6 +98,9 @@ class BinarySearchTree implements \Iterator
             return $node;
         }
         else {
+            if ($this->comparitor !== null) {
+                return $this->findComparitor($value, $node);
+            }
             if ($value > $node->getValue() && $node->getRightChild() !== null) {
                 return $this->find($value, $node->getRightChild());
             }
@@ -93,9 +112,26 @@ class BinarySearchTree implements \Iterator
     }
 
     /**
+     * finds a node based on the given comparitor
+     * @param mixed $value the value to look for
+     * @return BstNode the node with the given value or null
+     */
+    private function findComparitor($value, BstNode $node = null) : ?BstNode
+    {
+        $cmp = $this->comparitor->__invoke($node->getValue(), $value);
+        if ($cmp === true && $node->getRightChild() !== null) {
+            return $this->find($value, $node->getRightChild());
+        }
+        else if ($node->getLeftChild() !== null){
+            return $this->find($value, $node->getLeftChild());
+        }
+        return null;
+    }
+
+    /**
      * checks if the tree has the given value
      * @param mixed $value the value to check for
-     * @param Node $node the node to check from, also used i recursion
+     * @param BstNode $node the node to check from, also used i recursion
      * @return bool if the value was found or not
      */
     public function hasValue($value) : bool
@@ -123,10 +159,10 @@ class BinarySearchTree implements \Iterator
 
     /**
      * gets the node with the smallest value
-     * @param Node $node the node to recurse on
-     * @return Node the minimum node
+     * @param BstNode $node the node to recurse on
+     * @return BstNode the minimum node
      */
-    private function getMinNode(Node $node = null) : ?Node
+    private function getMinNode(BstNode $node = null) : ?BstNode
     {
         if ($node === null) {
             $node = $this->root;
@@ -159,10 +195,10 @@ class BinarySearchTree implements \Iterator
 
     /**
      * gets the node with the largest value
-     * @param Node $node the node to recurse on
-     * @return Node the maximum node, if one exists
+     * @param BstNode $node the node to recurse on
+     * @return BstNode the maximum node, if one exists
      */
-    private function getMaxNode(Node $node = null) : ?Node
+    private function getMaxNode(BstNode $node = null) : ?BstNode
     {
         if ($node === null) {
             $node = $this->root;
@@ -195,9 +231,9 @@ class BinarySearchTree implements \Iterator
 
     /**
      * deletes the given node from the tree
-     * @param Node $node the node to delete
+     * @param BstNode $node the node to delete
      */
-    public function delete(Node $node) : void
+    public function delete(BstNode $node) : void
     {
         if ($node->getLeftChild() === null && $node->getRightChild() === null) {
             //no children
@@ -228,7 +264,17 @@ class BinarySearchTree implements \Iterator
 
     }
 
-    //TODO make a delete by id
+    /**
+     * if the tree has a custom comparitor or not
+     * @return bool true if a custom comparitor has been set
+     */
+    public function hasComparitor() : bool
+    {
+        if ($this->comparitor !== null) {
+            return true;
+        }
+        return false;
+    }
 
     //////////////////////////////////
     //Iterator functions
@@ -301,7 +347,7 @@ class BinarySearchTree implements \Iterator
     }
 
     /**
-     *  checks if the iterator should continue
+     * checks if the iterator should continue
      * @return boolean if the iterator should continue or not
      */
     public function valid() : bool
