@@ -22,6 +22,8 @@ class BinarySearchTree implements \Iterator
     /**
      * constructs a new BinarySearchTree
      * @param mixed $rootValue the initial value of the tree's root
+     * @param callable|null $comparator the optional comparator used to sort added values
+     * @see setComparator
      */
     public function __construct($rootValue = null, ?callable $comparator = null)
     {
@@ -33,6 +35,10 @@ class BinarySearchTree implements \Iterator
         }
     }
 
+    /**
+     * sets the comparator for the values to be added/found with
+     * @param callable $comparator the comparing function to use, int the form function($a, $b)
+     */
     public function setComparator(callable $comparator) : void
     {
         $this->comparator = $comparator;
@@ -72,7 +78,7 @@ class BinarySearchTree implements \Iterator
 
     /**
      * gets the Node of the trees root
-     * @return BstNode the roots
+     * @return BstNode|null the trees root
      */
     public function getRoot() : ?BstNode
     {
@@ -82,7 +88,7 @@ class BinarySearchTree implements \Iterator
     /**
      * returns the node of the given value
      * @param mixed $value the value to look for
-     * @return BstNode the node with the given value or null
+     * @return BstNode|null the node with the given value or null
      */
     public function find($value, BstNode $node = null) : ?BstNode
     {
@@ -114,7 +120,7 @@ class BinarySearchTree implements \Iterator
     /**
      * finds a node based on the given comparator
      * @param mixed $value the value to look for
-     * @return BstNode the node with the given value or null
+     * @return BstNode|null the node with the given value or null
      */
     private function findComparator($value, BstNode $node = null) : ?BstNode
     {
@@ -160,7 +166,7 @@ class BinarySearchTree implements \Iterator
     /**
      * gets the node with the smallest value
      * @param BstNode $node the node to recurse on
-     * @return BstNode the minimum node
+     * @return BstNode|null the minimum node
      */
     private function getMinNode(BstNode $node = null) : ?BstNode
     {

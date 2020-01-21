@@ -23,7 +23,7 @@ class BstNode
     /**
      * constructs the node with the given value also generates a unique id for the node
      * @param mixed $value the value of the node
-     * @param BstNode $parent the nodes parent node
+     * @param BstNode|null $parent the nodes parent node, optional
      */
     public function __construct($value, BstNode $parent = null)
     {
@@ -71,6 +71,10 @@ class BstNode
         }
     }
 
+    /**
+     * adds a new node based upon the comparator
+     * @param mixed $value the value of the new node
+     */
     private function addChildComparator($value) : void
     {
         $cmp = $this->comparator->__invoke($this->value, $value);
@@ -183,7 +187,7 @@ class BstNode
 
     /**
      * gets the right child of the node if it exists
-     * @return ?Node the right child or null
+     * @return BstNode|null the right child or null
      */
     public function getRightChild() : ?BstNode
     {
@@ -192,7 +196,7 @@ class BstNode
 
     /**
      * gets the left child of the node if it exists
-     * @return ?Node the left child or null
+     * @return BstNode|null the left child or null
      */
     public function getLeftChild() : ?BstNode
     {
@@ -210,7 +214,7 @@ class BstNode
 
     /**
      * gets the parent of the current node
-     * @return BstNode the parent node or null (if the root)
+     * @return BstNode|null the parent node or null (if the root)
      */
     public function getParent() : ?BstNode
     {

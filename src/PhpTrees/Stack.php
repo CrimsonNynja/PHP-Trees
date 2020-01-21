@@ -67,7 +67,11 @@ class Stack
         return true;
     }
 
-    public function getAsArray()
+    /**
+     * gets the stack as an array
+     * @return array|null the array representation of the stack
+     */
+    public function getAsArray() : ?array
     {
         return $this->container;
     }

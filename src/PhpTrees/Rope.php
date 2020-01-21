@@ -14,9 +14,9 @@ class Rope implements \ArrayAccess
 
     /**
      * constructs the rope with default value if given
-     * @param string $s the default value of the rope
+     * @param string|null $s the default value of the rope
      */
-    public function __construct(string $s = null)
+    public function __construct(?string $s = null)
     {
         if ($s !== null) {
             $this->root = new RopeNode($s);
@@ -25,7 +25,7 @@ class Rope implements \ArrayAccess
 
     /**
      * constructs the rope from the given node
-     * @param $node the node to construct from
+     * @param RopeNode $node the node to construct from
      */
     public function constructFromNode(RopeNode $node) : void
     {
@@ -48,9 +48,9 @@ class Rope implements \ArrayAccess
     /**
      * inserts the given string into the rope
      * @param string $value the value to insert
-     * @param int $index the position to insert to, if not given, insert at the end
+     * @param int|null $index the position to insert to, if not given, insert at the end
      */
-    public function insert(string $value, int $index = null) : void
+    public function insert(string $value, ?int $index = null) : void
     {
         if ($index === null) {
             $index = $this->length();
@@ -73,7 +73,7 @@ class Rope implements \ArrayAccess
      * gets the character at the given index
      * @param int $index the index of the character to retrieve
      * @param RopeNode $node the recursive node to search
-     * @return ?string the char at the given position or null if index is out of range or if no root exists
+     * @return string|null the char at the given position or null if index is out of range or if no root exists
      */
     public function index(int $index, RopeNode $node = null) : ?string
     {
@@ -100,7 +100,7 @@ class Rope implements \ArrayAccess
      * splits the given node at the given position into 2 nodes
      * @param int $index the index to split at
      * @param RopeNode $node the recursive node to search
-     * @return RopeNode returns a reference to the location of the split (the new parent of the newly created nodes)
+     * @return RopeNode|null returns a reference to the location of the split (the new parent of the newly created nodes)
      */
     public function &splitNodeAtPosition(int $index, RopeNode $node = null) : ?RopeNode
     {
@@ -124,10 +124,10 @@ class Rope implements \ArrayAccess
     /**
      * gets the substring between the 2 indexes
      * @param int $start the index to start from
-     * @param int $length the length of the substring, if none given, defaults to the end of the string
+     * @param int|null $length the length of the substring, if none given, defaults to the end of the string
      * @return string the substring found
      */
-    public function substr(int $start, int $length = null) : string
+    public function substr(int $start, ?int $length = null) : string
     {
         if ($start > $this->length()) {
             return "";
@@ -157,7 +157,7 @@ class Rope implements \ArrayAccess
     /**
      * removes the substring between the 2 indexes
      * @param int $start the index to start from
-     * @param int $length the length of the sub-string, the end of the string if none is given
+     * @param int|null $length the length of the sub-string, the end of the string if none is given
      */
     public function removeSubstr(int $start, int $length = null) : void
     {
@@ -179,6 +179,7 @@ class Rope implements \ArrayAccess
 
     /**
      * gets the rope in a string representation
+     * @param RopeNode|null the recursive node or node to start the operation on
      * @return string the rope as a string
      */
     public function toString(RopeNode $node = null) : string
@@ -206,7 +207,7 @@ class Rope implements \ArrayAccess
 
     /**
      * gets the root of the rope
-     * @return ?RopeNode the Node of the root or null of not set
+     * @return RopeNode|null the Node of the root or null of not set
      */
     public function getRoot() : ?RopeNode
     {
@@ -216,8 +217,8 @@ class Rope implements \ArrayAccess
     /**
      * gets node of the given index and sets index to the required index of the node for the given index
      * @param int &$index the index to find
-     * @param RopeNode $node the node to recurse on
-     * @return RopeNode the node of the given index
+     * @param RopeNode|null $node the node to recurse on
+     * @return RopeNode|null the node of the given index
      */
     private function &getNodeOfIndex(int &$index, RopeNode $node = null) : ?RopeNode
     {

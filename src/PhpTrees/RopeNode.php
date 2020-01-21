@@ -20,9 +20,9 @@ class RopeNode
 
     /**
      * constructs a Rope Node
-     * @param string $value the initial value of the node, null if not given
+     * @param string|null $value the initial value of the node, null if not given
      */
-    public function __construct(string $value = null)
+    public function __construct(?string $value = null)
     {
         $this->value = $value;
         if ($this->value !== null) {
@@ -32,10 +32,10 @@ class RopeNode
 
     /**
      * gets the combined weight of all leaf nodes
-     * @param RopeNode $node the node to recurse from, if non given the current node is used
+     * @param RopeNode|null $node the node to recurse from, if non given the current node is used
      * @return int the combined weight of the leaves
      */
-    public function getLeafWeights(RopeNode $node = null) : int
+    public function getLeafWeights(?RopeNode $node = null) : int
     {
         if ($node === null) {
             $node = $this;
@@ -84,7 +84,7 @@ class RopeNode
 
     /**
      * removes all of the right children from the node
-     * @return RopeNode the children that were removed(unlined)
+     * @return RopeNode|null the children that were removed(unlined)
      */
     public function removeRightChildren() : ?RopeNode
     {
@@ -123,7 +123,7 @@ class RopeNode
 
     /**
      * gets the current value of the node
-     * @return string the value, null if it has none
+     * @return string|null the value, null if it has none
      */
     public function getValue() : ?string
     {
@@ -141,7 +141,7 @@ class RopeNode
 
     /**
      * gets the parent of the node
-     * @return RopeNode the nodes parent, null if it has none
+     * @return RopeNode|null the nodes parent, null if it has none
      */
     public function &getParent() : ?RopeNode
     {
@@ -150,7 +150,7 @@ class RopeNode
 
     /**
      * gets the left child of the node
-     * @return RopeNode the nodes left child, null if it has none
+     * @return RopeNode|null the nodes left child, null if it has none
      */
     public function getLeftChild() : ?RopeNode
     {
@@ -159,7 +159,7 @@ class RopeNode
 
     /**
      * gets the right child of the node
-     * @return RopeNode the nodes right child, null if it has none
+     * @return RopeNode|null the nodes right child, null if it has none
      */
     public function getRightChild() : ?RopeNode
     {
@@ -168,7 +168,7 @@ class RopeNode
 
     /**
      * sets the nodes parent to the given node
-     * @param RopeNode $parent the parent to set to
+     * @param RopeNode|null $parent the parent to set to
      */
     public function setParent(?RopeNode $parent) : void
     {
