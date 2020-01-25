@@ -86,6 +86,7 @@ class GenericTree
                     $result = $this->findNode($id, $child);
                 }
             }
-            return $r
+            return $result;
+        }
     }
 }
