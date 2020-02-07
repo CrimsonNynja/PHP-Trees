@@ -12,11 +12,11 @@ class GenericNode
     /* The value of the node */
     private $value = null;
     /* The nodes children */
-    private $children = [];
+    private array $children = [];
     /* the nodes parent */
-    private $parent = null;
+    private ?GenericNode $parent = null;
     /* the nodes id */
-    private $id = 0;
+    private int $id = 0;
 
     /**
      * constructs a node
