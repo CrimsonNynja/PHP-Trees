@@ -81,7 +81,7 @@ class GenericTree
             $children = $node->getChildren();
             foreach($children as $child) {
                 if ($result === null) {
-                    $result = $this->findNode($id, $child);
+                    $result = $this->findNodeByValue($value, $child);
                 }
             }
             return $result;
