@@ -11,11 +11,11 @@ use PhpTrees\Stack;
 class BinarySearchTree implements \Iterator
 {
     /* the root of the tree */
-    private $root = null;
+    private ?BstNode $root = null;
     /* used for iterating over the tree */
-    private $iteratorPosition = false;
+    private ?BstNode $iteratorPosition = null;
     /* used for iterating through the tree */
-    private $iteratorStack = null;
+    private ?Stack $iteratorStack = null;
     /* if set, used to comparing non literal values */
     private $comparator = null;
 
@@ -92,9 +92,7 @@ class BinarySearchTree implements \Iterator
      */
     public function find($value, BstNode $node = null) : ?BstNode
     {
-        if ($node === null) {
-            $node = $this->root;
-        }
+        $node ??= $this->root;
 
         if ($this->root === null) {
             return null;
@@ -170,9 +168,7 @@ class BinarySearchTree implements \Iterator
      */
     private function getMinNode(BstNode $node = null) : ?BstNode
     {
-        if ($node === null) {
-            $node = $this->root;
-        }
+        $node ??= $this->root;
 
         if ($this->root === null) {
             return null;
@@ -293,7 +289,7 @@ class BinarySearchTree implements \Iterator
     public function __clone()
     {
         $this->root = clone $this->root;
-        $this->iteratorPosition = false;
+        $this->iteratorPosition = null;
         $this->iteratorStack = null;
     }
 
@@ -332,12 +328,17 @@ class BinarySearchTree implements \Iterator
                     $node = $node->getLeftChild();
                 }
             }
-            $this->iteratorPosition = $this->iteratorStack->peek();
+            if ($this->iteratorStack->peek() !== false) {
+                $this->iteratorPosition = $this->iteratorStack->peek();
+            }
+            else {
+                $this->iteratorPosition = null;
+            }
         }
     }
 
     /**
-     * sets the iterator to the start value, or the left ;most leaf of the tree
+     * sets the iterator to the start value, or the left most leaf of the tree
      */
     public function rewind() : void
     {
@@ -358,7 +359,7 @@ class BinarySearchTree implements \Iterator
      */
     public function valid() : bool
     {
-        if ($this->iteratorPosition === false) {
+        if ($this->iteratorPosition === null) {
             return false;
         }
         return true;

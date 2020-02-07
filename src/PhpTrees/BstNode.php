@@ -10,13 +10,13 @@ class BstNode
     /* the nodes value */
     private $value = null;
     /* the left child of the node */
-    private $left = null;
+    private ?BstNode $left = null;
     /* the right child of the node */
-    private $right = null;
+    private ?BstNode $right = null;
     /* used for quick deletions */
-    private $parent = null;
+    private ?BstNode $parent = null;
     /* the node's id, used for iterating over the tree */
-    private $id = 0;
+    private int $id = 0;
     /* if set, used to comparing non literal values */
     private $comparator = null;
 

@@ -82,9 +82,8 @@ final class BstNodeTest extends TestCase
     public function testAddComparator()
     {
         $n = new BstNode("12345");
-        $n->setComparator(function($val, $val2) {
-            return (strlen($val) <= strlen($val2));
-        });
+        $n->setComparator(fn($val, $val2) => strlen($val) <= strlen($val2));
+
         $n->addChild("1234");
         $n->addChild("12345678");
         $n->addChild("12");
@@ -102,9 +101,7 @@ final class BstNodeTest extends TestCase
         $n = new BstNode("12345");
         $this->assertFalse($n->hasComparator());
 
-        $n->setComparator(function($v, $v2){
-            return true;
-        });
+        $n->setComparator(fn($v, $v2) => true);
         $this->assertTrue($n->hasComparator());
     }
 }

@@ -7,7 +7,7 @@ namespace PhpTrees;
  */
 class Stack
 {
-    private $container = [];
+    private array $container = [];
 
     /**
      * pushes the given values onto the stack

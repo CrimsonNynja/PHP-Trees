@@ -10,7 +10,7 @@ use PhpTrees\RopeNode;
 class Rope implements \ArrayAccess
 {
     /* the root of the tree */
-    private $root = null;
+    private ?RopeNode $root = null;
 
     /**
      * constructs the rope with default value if given
@@ -52,9 +52,7 @@ class Rope implements \ArrayAccess
      */
     public function insert(string $value, ?int $index = null) : void
     {
-        if ($index === null) {
-            $index = $this->length();
-        }
+        $index ??= $this->length();
 
         if ($index >= $this->length()) {
             $r = concatRope($this, new Rope($value));
@@ -77,9 +75,8 @@ class Rope implements \ArrayAccess
      */
     public function index(int $index, RopeNode $node = null) : ?string
     {
-        if ($node === null) {
-            $node = $this->root;
-        }
+        $node ??= $this->root;
+
         if ($node === null) {
             return null;
         }
@@ -104,9 +101,7 @@ class Rope implements \ArrayAccess
      */
     public function &splitNodeAtPosition(int $index, RopeNode $node = null) : ?RopeNode
     {
-        if ($node === null) {
-            $node = $this->root;
-        }
+        $node ??= $this->root;
 
         if ($node->getWeight() <= $index && $node->getRightChild() !== null) {
             return $this->splitNodeAtPosition($index - $node->getWeight(), $node->getRightChild());

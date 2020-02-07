@@ -10,7 +10,7 @@ use PhpTrees\GenericNode;
 class GenericTree
 {
     /* the root of the tree */
-    private $root;
+    private ?GenericNode $root = null;
 
     /**
      * construct the node
@@ -38,9 +38,8 @@ class GenericTree
      */
     public function findNode(int $id, ?GenericNode $node = null) : ?GenericNode
     {
-        if ($node === null) {
-            $node = $this->root;
-        }
+        $node ??= $this->root;
+
         if ($node === null) {
             return null;
         }
@@ -68,9 +67,8 @@ class GenericTree
      */
     public function findNodeByValue($value, ?GenericNode $node = null) : ?GenericNode
     {
-        if ($node === null) {
-            $node = $this->root;
-        }
+        $node ??= $this->root;
+
         if ($node === null) {
             return null;
         }

@@ -8,15 +8,15 @@ namespace PhpTrees;
 class RopeNode
 {
     /* THe value of the node */
-    private $value = null;
+    private ?string $value = null;
     /* the left child of the node */
-    private $left = null;
+    private ?RopeNode $left = null;
     /* the right child of the node */
-    private $right = null;
+    private ?RopeNode $right = null;
     /* the nodes parent */
-    private $parent = null;
+    private ?RopeNode $parent = null;
     /* the weight of the node, representing the value length */
-    private $weight = 0;
+    private int $weight = 0;
 
     /**
      * constructs a Rope Node
