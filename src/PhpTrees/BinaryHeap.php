@@ -10,18 +10,22 @@ class BinaryHeap
 {
     /* internal array to store the heap in */
     private array $heap = [];
+    /* comparator for any non standard objects */
+    private $comparator = null;
 
     /**
      * constructs the heap with the initial root, if given
      * as this is a heap the root value may not remain consistent
      *
      * @param mixed|null $root the initial root of the heap
+     * @param callable|null $comparator custom comparator for any non standard objects stored in the heap in the form func ($a, $b) and returns true if $a > $b
      */
-    public function __construct($root = null)
+    public function __construct($root = null, ?callable $comparator = null)
     {
         if ($root !== null) {
             $this->insert($root);
         }
+        $this->comparator = $comparator;
     }
 
     /**
@@ -126,6 +130,19 @@ class BinaryHeap
     }
 
     /**
+     * checks if the heap has a comparator
+     *
+     * @return bool true if the heap has a custom comparator
+     */
+    public function hasComparator() : bool
+    {
+        if ($this->comparator === null) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
      * rebuilds the heap. This is useful if you want a heap from an array
      */
     private function heapify() : void
@@ -148,11 +165,21 @@ class BinaryHeap
 
         $parentIndex = (int)($index - 1) / 2;
 
-        if ($this->heap[$parentIndex] > $this->heap[$index]) {
-            $dummy = $this->heap[$parentIndex];
-            $this->heap[$parentIndex] = $this->heap[$index];
-            $this->heap[$index] = $dummy;
-            $this->bubbleUp($parentIndex);
+        if ($this->comparator !== null) {
+            if ($this->comparator->__invoke($this->heap[$parentIndex], $this->heap[$index])) {
+                $dummy = $this->heap[$parentIndex];
+                $this->heap[$parentIndex] = $this->heap[$index];
+                $this->heap[$index] = $dummy;
+                $this->bubbleUp($parentIndex);
+            }
+        }
+        else {
+            if ($this->heap[$parentIndex] > $this->heap[$index]) {
+                $dummy = $this->heap[$parentIndex];
+                $this->heap[$parentIndex] = $this->heap[$index];
+                $this->heap[$index] = $dummy;
+                $this->bubbleUp($parentIndex);
+            }
         }
     }
 
@@ -174,12 +201,28 @@ class BinaryHeap
 
         $minIndex = $index;
 
-        if ($this->heap[$index] > $this->heap[$leftIndex]) {
-            $minIndex = $leftIndex;
+        if ($this->comparator !== null) {
+            if ($this->comparator->__invoke($this->heap[$index], $this->heap[$leftIndex])) {
+                $minIndex = $leftIndex;
+            }
+        }
+        else {
+            if ($this->heap[$index] > $this->heap[$leftIndex]) {
+                $minIndex = $leftIndex;
+            }
         }
 
-        if (($rightIndex < $length) && ($this->heap[$minIndex] > $this->heap[$rightIndex])) {
-            $minIndex = $rightIndex;
+        if (($rightIndex < $length)) {
+            if ($this->comparator !== null) {
+                if ($this->comparator->__invoke($this->heap[$minIndex], $this->heap[$rightIndex])) {
+                    $minIndex = $rightIndex;
+                }
+            }
+            else {
+                if ($this->heap[$minIndex] > $this->heap[$rightIndex]) {
+                    $minIndex = $rightIndex;
+                }
+            }
         }
 
         if ($minIndex !== $index) {
