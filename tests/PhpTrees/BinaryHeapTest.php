@@ -9,9 +9,15 @@ final class BinaryHeapTest extends TestCase
     {
         $h = new BinaryHeap();
         $this->assertNull($h->getMinValue());
+        $this->assertFalse($h->hasComparator());
 
         $h = new BinaryHeap(5);
         $this->assertSame($h->getMinValue(), 5);
+
+        $h = new BinaryHeap(6, function($a, $b) {
+            return $a > $b;
+        });
+        $this->assertTrue($h->hasComparator());
     }
 
     public function testMinValue()
@@ -119,5 +125,28 @@ final class BinaryHeapTest extends TestCase
         $this->assertSame($oldMin, 1);
         $this->assertSame($h->getMinValue(), 2);
         $this->assertSame($h->getMaxValue(), 7);
+    }
+
+    public function testComparator()
+    {
+        $h = new BinaryHeap("a", function($a, $b) {
+            return strlen($a) < strlen($b);
+        });
+
+        $h->insertMultiple("aa", "aaa", "aaaa", "aaaaa");
+        $this->assertSame($h->getSize(), 5);
+        $this->assertSame($h->getMinValue(), "aaaaa");
+        $h->deleteMin();
+        $this->assertSame($h->getMinValue(), "aaaa");
+
+        $h = new BinaryHeap(null, function($a, $b) {
+            return strlen($a) < strlen($b);
+        });
+
+        $h->constructFromArray(["a", "aa", "aaa", "aaaa"]);
+        $this->assertSame($h->getSize(), 4);
+        $this->assertSame($h->getMinValue(), "aaaa");
+        $h->deleteMin();
+        $this->assertSame($h->getMinValue(), "aaa");
     }
 }
