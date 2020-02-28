@@ -18,6 +18,8 @@ class BinarySearchTree implements \Iterator
     private ?Stack $iteratorStack = null;
     /* if set, used to comparing non literal values */
     private $comparator = null;
+    /* the size of the BST */
+    private int $size = 0;
 
     /**
      * constructs a new BinarySearchTree
@@ -29,6 +31,7 @@ class BinarySearchTree implements \Iterator
     {
         if ($rootValue !== null) {
             $this->root = new BstNode($rootValue);
+            $this->size += 1;
         }
         if ($comparator !== null) {
             $this->setComparator($comparator);
@@ -37,14 +40,19 @@ class BinarySearchTree implements \Iterator
 
     /**
      * sets the comparator for the values to be added/found with
-     * @param callable $comparator the comparing function to use, int the form function($a, $b)
+     * @param callable $comparator the comparing function to use, int the form function($a, $b), returning a bool
+     * @return bool weather the comparitor was set or not
      */
-    public function setComparator(callable $comparator) : void
+    public function setComparator(callable $comparator) : bool
     {
-        $this->comparator = $comparator;
-        if ($this->root !== null) {
-            $this->root->setComparator($this->comparator);
+        if ($this->getSize() <= 1) {
+            $this->comparator = $comparator;
+            if ($this->root !== null) {
+                $this->root->setComparator($this->comparator);
+            }
+            return true;
         }
+        return false;
     }
 
     /**
@@ -53,6 +61,7 @@ class BinarySearchTree implements \Iterator
      */
     public function insert($value) : void
     {
+        $this->size += 1;
         if ($this->root !== null) {
             $this->root->addChild($value);
         }
@@ -83,6 +92,14 @@ class BinarySearchTree implements \Iterator
     public function getRoot() : ?BstNode
     {
         return $this->root;
+    }
+
+    /**
+     * gets the size of the BST
+     */
+    public function getSize() : int
+    {
+        return $this->size;
     }
 
     /**

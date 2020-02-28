@@ -42,6 +42,22 @@ class BinaryHeap
     }
 
     /**
+     * sets the comparator for the values to be added/found with
+     * Note this will only set the comparitor if the heap is of length 1 or less
+     *
+     * @param callable $comparator the comparing function to use, int the form function($a, $b), returning a bool
+     * @return bool if the comparitor was set or not
+     */
+    public function setComparitor(callable $comparator) : bool
+    {
+        if (sizeof($this->heap) <= 1) {
+            $this->comparator = $comparator;
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * inserts a value into the heap
      *
      * @param mixed $value the value to add
