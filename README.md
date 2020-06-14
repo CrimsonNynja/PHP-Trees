@@ -24,7 +24,9 @@ To use the binary search tree, include the correct file and create it as such
 use PhpTrees\BinarySearchTree;
 
 $b = new BinarySearchTree(5);
+// This will create a binary search tree with a root of the value 5
 ```
+
 
 To use the Rope
 
@@ -32,6 +34,7 @@ To use the Rope
 use PhpTrees\Rope;
 
 $r = new Rope("This is a Rope!");
+// This will create a Rope with the initial string, "This is a Rope"
 ```
 
 To use the Binary Heap
@@ -40,6 +43,7 @@ To use the Binary Heap
 use PhpTrees\BinaryHeap;
 
 $h = new BinaryHeap();
+// This will create an empty binary heap
 ```
 
 To use the Generic Tree
@@ -48,9 +52,9 @@ To use the Generic Tree
 use PhpTrees\GenericTree;
 
 $g = new GenericTree(4.1);
+// This will create a generic tree with root 4.1
 ```
 
-This will create a binary search tree with a root of the value 5\
 For a more detailed description of the features of PHP Trees, check out the wiki\
 <https://github.com/CrimsonNynja/PHP-Trees/wiki>
 
