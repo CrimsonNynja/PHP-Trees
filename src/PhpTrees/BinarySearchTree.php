@@ -139,7 +139,7 @@ class BinarySearchTree implements \Iterator
      */
     private function findComparator($value, BstNode $node = null) : ?BstNode
     {
-        $cmp = $this->comparator->__invoke($node->getValue(), $value);
+        $cmp = ($this->comparator)($node->getValue(), $value);
         if ($cmp === true && $node->getRightChild() !== null) {
             return $this->find($value, $node->getRightChild());
         }
