@@ -77,7 +77,7 @@ class BstNode
      */
     private function addChildComparator($value) : void
     {
-        $cmp = $this->comparator->__invoke($this->value, $value);
+        $cmp = ($this->comparator)($this->value, $value);
         if ($cmp === true) {
             if ($this->right === null) {
                 $this->right = new BstNode($value, $this);

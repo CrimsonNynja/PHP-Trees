@@ -182,7 +182,7 @@ class BinaryHeap
         $parentIndex = (int)($index - 1) / 2;
 
         if ($this->comparator !== null) {
-            if ($this->comparator->__invoke($this->heap[$parentIndex], $this->heap[$index])) {
+            if (($this->comparator)($this->heap[$parentIndex], $this->heap[$index])) {
                 $dummy = $this->heap[$parentIndex];
                 $this->heap[$parentIndex] = $this->heap[$index];
                 $this->heap[$index] = $dummy;
@@ -218,7 +218,7 @@ class BinaryHeap
         $minIndex = $index;
 
         if ($this->comparator !== null) {
-            if ($this->comparator->__invoke($this->heap[$index], $this->heap[$leftIndex])) {
+            if (($this->comparator)($this->heap[$index], $this->heap[$leftIndex])) {
                 $minIndex = $leftIndex;
             }
         }
@@ -230,7 +230,7 @@ class BinaryHeap
 
         if (($rightIndex < $length)) {
             if ($this->comparator !== null) {
-                if ($this->comparator->__invoke($this->heap[$minIndex], $this->heap[$rightIndex])) {
+                if (($this->comparator)($this->heap[$minIndex], $this->heap[$rightIndex])) {
                     $minIndex = $rightIndex;
                 }
             }
