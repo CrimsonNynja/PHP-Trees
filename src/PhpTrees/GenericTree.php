@@ -40,10 +40,6 @@ class GenericTree
     {
         $node ??= $this->root;
 
-        if ($node === null) {
-            return null;
-        }
-
         if ($node->getID() === $id) {
             return $node;
         }
@@ -68,10 +64,6 @@ class GenericTree
     public function findNodeByValue($value, ?GenericNode $node = null) : ?GenericNode
     {
         $node ??= $this->root;
-
-        if ($node === null) {
-            return null;
-        }
 
         if ($node->getValue() === $value) {
             return $node;
