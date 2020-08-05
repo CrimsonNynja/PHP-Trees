@@ -27,7 +27,6 @@ $b = new BinarySearchTree(5);
 // This will create a binary search tree with a root of the value 5
 ```
 
-
 To use the Rope
 
 ```php
