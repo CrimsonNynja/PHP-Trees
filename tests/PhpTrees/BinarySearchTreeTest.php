@@ -258,9 +258,10 @@ final class BinarySearchTreeTest extends TestCase
 
         $b = new BinarySearchTree();
         $this->assertFalse($b->hasComparator());
-        $b->setComparator(
+        $cmp = $b->setComparator(
             fn($val, $val2) : bool => strlen($val) <= strlen($val2)
         );
+        $this->assertTrue($cmp);
 
         $b->insertMultiple("12345", "12", "123", "123456", "1");
 
@@ -276,5 +277,10 @@ final class BinarySearchTreeTest extends TestCase
         $this->assertNotNull($b->find("123456"));
         $this->assertNotNull($b->find("1"));
         $this->assertNull($b->find("78"));
+
+        $b = new BinarySearchTree();
+        $b->insertMultiple("12345", "12", "123", "123456", "1");
+        $cmp = $b->setComparator(fn($val, $val2) : bool => strlen($val) <= strlen($val2));
+        $this->assertFalse($cmp);
     }
 }
