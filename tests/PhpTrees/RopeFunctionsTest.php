@@ -90,5 +90,10 @@ final class RopeFunctionsTest extends TestCase
         $split = splitRope($rope, 10);
         $this->assertSame($split[0]->toString(), "words 1wor");
         $this->assertSame($split[1]->toString(), "ds2words3words 4");
+
+        $r = new Rope("words 1");
+        $r2 = new Rope("words2");
+        $r3 = concatRope($r, $r2);
+        $split = splitRope($r3, 1);
     }
 }

@@ -333,24 +333,19 @@ class BinarySearchTree implements \Iterator
      */
     public function next() : void
     {
-        if ($this->iteratorStack->isEmpty() === true) {
-            $this->iteratorStack = null;
+        $ret = $this->iteratorStack->pop();
+        if ($ret->getRightChild() !== null) {
+            $node = $ret->getRightChild();
+            while($node !== null) {
+                $this->iteratorStack->push($node);
+                $node = $node->getLeftChild();
+            }
+        }
+        if ($this->iteratorStack->peek() !== false) {
+            $this->iteratorPosition = $this->iteratorStack->peek();
         }
         else {
-            $ret = $this->iteratorStack->pop();
-            if ($ret->getRightChild() !== null) {
-                $node = $ret->getRightChild();
-                while($node !== null) {
-                    $this->iteratorStack->push($node);
-                    $node = $node->getLeftChild();
-                }
-            }
-            if ($this->iteratorStack->peek() !== false) {
-                $this->iteratorPosition = $this->iteratorStack->peek();
-            }
-            else {
-                $this->iteratorPosition = null;
-            }
+            $this->iteratorPosition = null;
         }
     }
 

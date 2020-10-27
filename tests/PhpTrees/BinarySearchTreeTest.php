@@ -230,6 +230,16 @@ final class BinarySearchTreeTest extends TestCase
         $this->assertSame($result, [1, 3, 4, 5, 6, 7, 8, 10, 11, 12, 13, 15, 17, 20, 22]);
     }
 
+    public function testIteratorOnEmptyTree()
+    {
+        $b = new BinarySearchTree();
+        $result = [];
+        foreach($b as $node) {
+            $result[] = $node;
+        }
+        $this->assertEmpty($result);
+    }
+
     public function testClone()
     {
         $b = new BinarySearchTree(10);

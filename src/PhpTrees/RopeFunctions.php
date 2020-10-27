@@ -49,13 +49,8 @@ function splitRope(Rope $rope, int $index) : array
     while ($cursor !== null) {
         if ($cursor->getRightChild() !== null && $cursor->getRightChild() !== $lastCursor) {
             $node = $cursor->removeRightChildren();
-            if ($node->hasChildren() === false) {
-                $dummy = new Rope($node->getValue());
-            }
-            else {
-                $dummy = new Rope();
-                $dummy->constructFromNode(clone $node);
-            }
+            $dummy = new Rope();
+            $dummy->constructFromNode(clone $node);
             $r2 = concatRope($r2, $dummy);
         }
 
