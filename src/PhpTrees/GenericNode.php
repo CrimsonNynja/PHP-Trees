@@ -9,8 +9,6 @@ use Exception;
  */
 class GenericNode
 {
-    /* The value of the node */
-    private mixed $value = null;
     /* The nodes children */
     private array $children = [];
     /* the nodes parent */
@@ -22,9 +20,9 @@ class GenericNode
      * constructs a node
      * @param mixed $value the default value of the node, null if not given
      */
-    public function __construct(mixed $value = null)
-    {
-        $this->setValue($value);
+    public function __construct(
+        private mixed $value = null
+    ) {
         static $id = 0;
         $this->id = $id++;
     }

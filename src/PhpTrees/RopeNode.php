@@ -7,8 +7,6 @@ namespace PhpTrees;
  */
 class RopeNode
 {
-    /* THe value of the node */
-    private ?string $value = null;
     /* the left child of the node */
     private ?RopeNode $left = null;
     /* the right child of the node */
@@ -22,9 +20,9 @@ class RopeNode
      * constructs a Rope Node
      * @param string|null $value the initial value of the node, null if not given
      */
-    public function __construct(?string $value = null)
-    {
-        $this->value = $value;
+    public function __construct(
+        private ?string $value = null
+    ) {
         if ($this->value !== null) {
             $this->weight = strlen($this->value);
         }
