@@ -7,14 +7,10 @@ namespace PhpTrees;
  */
 class BstNode
 {
-    /* the nodes value */
-    private mixed $value = null;
     /* the left child of the node */
     private ?BstNode $left = null;
     /* the right child of the node */
     private ?BstNode $right = null;
-    /* used for quick deletions */
-    private ?BstNode $parent = null;
     /* the node's id, used for iterating over the tree */
     private int $id = 0;
     /* if set, used to comparing non literal values */
@@ -25,11 +21,10 @@ class BstNode
      * @param mixed $value the value of the node
      * @param BstNode|null $parent the nodes parent node, optional
      */
-    public function __construct(mixed $value, BstNode $parent = null)
-    {
-        $this->value = $value;
-        $this->parent = $parent;
-
+    public function __construct(
+        private mixed $value,
+        private ?BstNode $parent = null
+    ) {
         static $id = 0;
         $this->id = $id++;
     }
