@@ -7,13 +7,23 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v1
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.0.0'
+        extensions: mbstring, intl
+        ini-values: post_max_size=256M, max_execution_time=180
+        coverage: xdebug
+        tools: php-cs-fixer, phpunit
 
     - name: Validate composer.json and composer.lock
       run: composer validate
 
     - name: Install dependencies
-      run: composer install --prefer-dist --no-progress --no-suggest
+      run: composer install --prefer-dist --no-progress
 
     - name: PHP version
       run: php -v
