@@ -13,7 +13,7 @@ class Stack
      * pushes the given values onto the stack
      * @param mixed ...$vars the vars to place on the stack
      */
-    public function push(...$vars) : void
+    public function push(mixed ...$vars) : void
     {
         foreach($vars as $var) {
             $this->container[] = $var;
@@ -24,18 +24,18 @@ class Stack
      *  pops the last element off the stack and returns the element popped
      * @return mixed the element popped
      */
-    public function pop()
+    public function pop() : mixed
     {
-        return \array_pop($this->container);
+        return array_pop($this->container);
     }
 
     /**
      * shows the element on top of the stack
      * @return mixed the element on top of the stack
      */
-    public function peek()
+    public function peek() : mixed
     {
-        return \end($this->container);
+        return end($this->container);
     }
 
     /**
@@ -52,7 +52,7 @@ class Stack
      */
     public function getSize() : int
     {
-        return \sizeof($this->container);
+        return sizeof($this->container);
     }
 
     /**
@@ -61,7 +61,7 @@ class Stack
      */
     public function isEmpty() : bool
     {
-        if (\sizeof($this->container) > 0) {
+        if (sizeof($this->container) > 0) {
             return false;
         }
         return true;

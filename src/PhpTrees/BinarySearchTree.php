@@ -27,7 +27,7 @@ class BinarySearchTree implements \Iterator
      * @param callable|null $comparator the optional comparator used to sort added values
      * @see setComparator
      */
-    public function __construct($rootValue = null, ?callable $comparator = null)
+    public function __construct(mixed $rootValue = null, ?callable $comparator = null)
     {
         if ($rootValue !== null) {
             $this->root = new BstNode($rootValue);
@@ -59,7 +59,7 @@ class BinarySearchTree implements \Iterator
      * adds a node to the tree
      * @param mixed $value the value to add to the tree
      */
-    public function insert($value) : void
+    public function insert(mixed $value) : void
     {
         $this->size += 1;
         if ($this->root !== null) {
@@ -77,7 +77,7 @@ class BinarySearchTree implements \Iterator
      * inserts multiple entries in the tree in order
      * @param mixed ...$values the values to insert, inserted in the order they are given in
      */
-    public function insertMultiple(...$values) : void
+    public function insertMultiple(mixed ...$values) : void
     {
         foreach($values as $value)
         {
@@ -96,6 +96,7 @@ class BinarySearchTree implements \Iterator
 
     /**
      * gets the size of the BST
+     * @return int the size of the BST, i.e. amount of nodes
      */
     public function getSize() : int
     {
@@ -107,7 +108,7 @@ class BinarySearchTree implements \Iterator
      * @param mixed $value the value to look for
      * @return BstNode|null the node with the given value or null
      */
-    public function find($value, BstNode $node = null) : ?BstNode
+    public function find(mixed $value, BstNode $node = null) : ?BstNode
     {
         $node ??= $this->root;
 
@@ -137,7 +138,7 @@ class BinarySearchTree implements \Iterator
      * @param mixed $value the value to look for
      * @return BstNode|null the node with the given value or null
      */
-    private function findComparator($value, BstNode $node = null) : ?BstNode
+    private function findComparator(mixed $value, BstNode $node = null) : ?BstNode
     {
         $cmp = ($this->comparator)($node->getValue(), $value);
         if ($cmp === true && $node->getRightChild() !== null) {
@@ -152,10 +153,9 @@ class BinarySearchTree implements \Iterator
     /**
      * checks if the tree has the given value
      * @param mixed $value the value to check for
-     * @param BstNode $node the node to check from, also used i recursion
      * @return bool if the value was found or not
      */
-    public function hasValue($value) : bool
+    public function hasValue(mixed $value) : bool
     {
         if ($this->find($value)) {
             return true;
@@ -168,7 +168,7 @@ class BinarySearchTree implements \Iterator
      * @param mixed ...$values the values to check for
      * @return bool if all the values exists or not
      */
-    public function hasValues(...$values) : bool
+    public function hasValues(mixed ...$values) : bool
     {
         $ret = true;
         foreach($values as $value)
@@ -203,7 +203,7 @@ class BinarySearchTree implements \Iterator
      * gets the smallest value in the binary tree
      * @return mixed the minimum value in the tree
      */
-    public function getMinValue()
+    public function getMinValue() : mixed
     {
         $mn = $this->getMinNode();
         if ($mn !== null) {
@@ -239,7 +239,7 @@ class BinarySearchTree implements \Iterator
      * gets the largest value in the binary tree
      * @return mixed the maximum value in the tree
      */
-    public function getMaxValue()
+    public function getMaxValue() : mixed
     {
         $mn = $this->getMaxNode();
         if ($mn !== null) {

@@ -20,7 +20,7 @@ class BinaryHeap
      * @param mixed|null $root the initial root of the heap
      * @param callable|null $comparator custom comparator for any non standard objects stored in the heap in the form func ($a, $b) and returns true if $a > $b
      */
-    public function __construct($root = null, ?callable $comparator = null)
+    public function __construct(mixed $root = null, ?callable $comparator = null)
     {
         if ($root !== null) {
             $this->insert($root);
@@ -62,7 +62,7 @@ class BinaryHeap
      *
      * @param mixed $value the value to add
      */
-    public function insert($value) : void
+    public function insert(mixed $value) : void
     {
         $this->heap[] = $value;
         $this->bubbleUp(sizeof($this->heap) - 1);
@@ -73,7 +73,7 @@ class BinaryHeap
      *
      * @param mixed ...$values the variatic values to add, can be of differing types
      */
-    public function insertMultiple(...$values) : void
+    public function insertMultiple(mixed ...$values) : void
     {
         foreach($values as $value) {
             $this->insert($value);
@@ -83,9 +83,9 @@ class BinaryHeap
     /**
      * deletes the minimum value from the heap
      *
-     * @return mixed returns teh element removed
+     * @return mixed returns the element removed
      */
-    public function deleteMin()
+    public function deleteMin() : mixed
     {
         if ($this->heap !== []) {
             $ret = $this->heap[0];
@@ -93,6 +93,7 @@ class BinaryHeap
             $this->bubbleDown(0);
             return $ret;
         }
+        return null;
     }
 
     /**
@@ -100,7 +101,7 @@ class BinaryHeap
      *
      * @return mixed|null the smallest value in the heap
      */
-    public function getMinValue()
+    public function getMinValue() : mixed
     {
         if ($this->heap !== []) {
             return $this->heap[0];
@@ -113,7 +114,7 @@ class BinaryHeap
      *
      * @return mixed|null the maximum element in the heap
      */
-    public function getMaxValue()
+    public function getMaxValue() : mixed
     {
         if ($this->heap !== []) {
             $max = $this->heap[(int)sizeof($this->heap) / 2];

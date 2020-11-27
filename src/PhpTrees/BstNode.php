@@ -8,7 +8,7 @@ namespace PhpTrees;
 class BstNode
 {
     /* the nodes value */
-    private $value = null;
+    private mixed $value = null;
     /* the left child of the node */
     private ?BstNode $left = null;
     /* the right child of the node */
@@ -25,7 +25,7 @@ class BstNode
      * @param mixed $value the value of the node
      * @param BstNode|null $parent the nodes parent node, optional
      */
-    public function __construct($value, BstNode $parent = null)
+    public function __construct(mixed $value, BstNode $parent = null)
     {
         $this->value = $value;
         $this->parent = $parent;
@@ -47,7 +47,7 @@ class BstNode
      * adds a child node to the node
      * @param mixed $value the value of the node to add
      */
-    public function addChild($value) : void
+    public function addChild(mixed $value) : void
     {
         if ($this->comparator !== null) {
             $this->addChildComparator($value);
@@ -75,7 +75,7 @@ class BstNode
      * adds a new node based upon the comparator
      * @param mixed $value the value of the new node
      */
-    private function addChildComparator($value) : void
+    private function addChildComparator(mixed $value) : void
     {
         $cmp = ($this->comparator)($this->value, $value);
         if ($cmp === true) {
@@ -180,7 +180,7 @@ class BstNode
      * sets the node value
      * @param mixed $value the new value of the node
      */
-    public function setValue($value) : void
+    public function setValue(mixed $value) : void
     {
         $this->value = $value;
     }

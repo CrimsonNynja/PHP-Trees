@@ -1,7 +1,6 @@
 <?php
 
 use PhpTrees\Rope;
-use PhpTrees\RopeNode;
 
 /**
  * concatenates the given ropes
