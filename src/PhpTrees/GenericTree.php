@@ -16,7 +16,7 @@ class GenericTree
      * construct the node
      * @param mixed $root the value of the initial root
      */
-    public function __construct($rootValue = null)
+    public function __construct(mixed $rootValue = null)
     {
         $this->root = new GenericNode($rootValue);
     }
@@ -61,7 +61,7 @@ class GenericTree
      * @param GenericNode|null $node the node to recurse on
      * @return GenericNode|null the node if found, or null
      */
-    public function findNodeByValue($value, ?GenericNode $node = null) : ?GenericNode
+    public function findNodeByValue(mixed $value, ?GenericNode $node = null) : ?GenericNode
     {
         $node ??= $this->root;
 

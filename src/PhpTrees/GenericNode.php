@@ -10,7 +10,7 @@ use Exception;
 class GenericNode
 {
     /* The value of the node */
-    private $value = null;
+    private mixed $value = null;
     /* The nodes children */
     private array $children = [];
     /* the nodes parent */
@@ -20,9 +20,9 @@ class GenericNode
 
     /**
      * constructs a node
-     * @param mixes $value the default value of the node, null if not given
+     * @param mixed $value the default value of the node, null if not given
      */
-    public function __construct($value = null)
+    public function __construct(mixed $value = null)
     {
         $this->setValue($value);
         static $id = 0;
@@ -33,7 +33,7 @@ class GenericNode
      * adds a child to the node
      * @param mixed value the value of the child
      */
-    public function addChild($value) : void
+    public function addChild(mixed $value) : void
     {
         if ($value instanceof GenericNode) {
             $this->addChildFromNode($value);
@@ -49,7 +49,7 @@ class GenericNode
      * adds multiple children to the node
      * @param mixed $values the variatic values to add
      */
-    public function addChildren(...$values) : void
+    public function addChildren(mixed ...$values) : void
     {
         foreach($values as $value) {
             $this->addChild($value);
@@ -94,6 +94,10 @@ class GenericNode
         return false;
     }
 
+    /**
+     * sets the parent of this node to the given node, or none
+     * @param GenericNode}null the node to set as the parent
+     */
     public function setParent(?GenericNode $node) : void
     {
         $this->parent = $node;
@@ -103,7 +107,7 @@ class GenericNode
      * sets the nodes value
      * @param mixed $value the value to set to
      */
-    public function setValue($value) : void
+    public function setValue(mixed $value) : void
     {
         $this->value = $value;
     }
@@ -112,7 +116,7 @@ class GenericNode
      * gets the value of the node
      * @return mixed the nodes value
      */
-    public function getValue()
+    public function getValue() : mixed
     {
         return $this->value;
     }
