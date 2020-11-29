@@ -18,7 +18,7 @@ class GenericTree
      */
     public function __construct(mixed $rootValue = null)
     {
-        $this->root = new GenericNode($rootValue);
+        $this->root = new GenericNode(value: $rootValue);
     }
 
     /**
@@ -47,7 +47,7 @@ class GenericTree
             $result = null;
             $children = $node->getChildren();
             foreach($children as $child) {
-                $result ??= $this->findNode($id, $child);
+                $result ??= $this->findNode(id: $id, node: $child);
             }
             return $result;
         }
@@ -70,7 +70,7 @@ class GenericTree
             $result = null;
             $children = $node->getChildren();
             foreach($children as $child) {
-                $result ??= $this->findNodeByValue($value, $child);
+                $result ??= $this->findNodeByValue(value: $value, node: $child);
             }
             return $result;
         }

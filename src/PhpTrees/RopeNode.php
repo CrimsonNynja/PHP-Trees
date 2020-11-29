@@ -24,7 +24,7 @@ class RopeNode
         private ?string $value = null
     ) {
         if ($this->value !== null) {
-            $this->weight = strlen($this->value);
+            $this->weight = strlen(string: $this->value);
         }
     }
 
@@ -45,10 +45,10 @@ class RopeNode
         }
         else {
             if ($node->getLeftChild() !== null) {
-                $ret += $node->getLeafWeights($node->getLeftChild());
+                $ret += $node->getLeafWeights(node: $node->getLeftChild());
             }
             if ($node->getRightChild() !== null) {
-                $ret += $node->getLeafWeights($node->getRightChild());
+                $ret += $node->getLeafWeights(node: $node->getRightChild());
             }
         }
         return $ret;
@@ -60,7 +60,7 @@ class RopeNode
      */
     public function addRightChild(RopeNode $node) : void
     {
-        $node->setParent($this);
+        $node->setParent(parent: $this);
         $this->right = $node;
         $this->value = null;
         if ($this->left === null) {
@@ -75,7 +75,7 @@ class RopeNode
     public function addLeftChild(RopeNode $node) : void
     {
         $this->left = $node;
-        $this->weight = $this->getLeftChild()->getLeafWeights($node);
+        $this->weight = $this->getLeftChild()->getLeafWeights(node: $node);
         $this->value = null;
         $this->left->parent = $this;
     }
@@ -102,8 +102,8 @@ class RopeNode
     {
         if ($this->value !== null && $index < $this->weight) {
             $value = $this->value;
-            $this->addLeftChild(new RopeNode(substr($value, 0, $index)));
-            $this->addRightChild(new RopeNode(substr($value, $index)));
+            $this->addLeftChild(node: new RopeNode(substr($value, 0, $index)));
+            $this->addRightChild(node: new RopeNode(substr($value, $index)));
         }
     }
 
@@ -195,12 +195,12 @@ class RopeNode
     {
         if ($this->left !== null) {
             $this->left = clone $this->left;
-            $this->left->setParent($this);
+            $this->left->setParent(parent: $this);
         }
 
         if ($this->right !== null) {
             $this->right = clone $this->right;
-            $this->right->setParent($this);
+            $this->right->setParent(parent: $this);
         }
     }
 }

@@ -16,10 +16,10 @@ class Rope implements \ArrayAccess
      * constructs the rope with default value if given
      * @param string|null $s the default value of the rope
      */
-    public function __construct(?string $s = null)
+    public function __construct(?string $string = null)
     {
-        if ($s !== null) {
-            $this->root = new RopeNode($s);
+        if ($string !== null) {
+            $this->root = new RopeNode(value: $string);
         }
     }
 
@@ -29,7 +29,7 @@ class Rope implements \ArrayAccess
      */
     public function constructFromNode(RopeNode $node) : void
     {
-        $node->setParent(null);
+        $node->setParent(parent: null);
         $this->root = $node;
     }
 
@@ -52,13 +52,13 @@ class Rope implements \ArrayAccess
         $index ??= $this->length();
 
         if ($index >= $this->length()) {
-            $r = concatRope($this, new Rope($value));
+            $r = concatRope(r1: $this, r2: new Rope($value));
         }
         else {
-            $ropes = splitRope($this, $index);
-            $dummy = new Rope($value);
-            $r = concatRope($ropes[0], $dummy);
-            $r = concatRope($r, $ropes[1]);
+            $ropes = splitRope(rope: $this, index: $index);
+            $dummy = new Rope(string: $value);
+            $r = concatRope(r1: $ropes[0], r2: $dummy);
+            $r = concatRope(r1: $r, r2: $ropes[1]);
         }
 
         $this->root = $r->getRoot();
@@ -79,10 +79,10 @@ class Rope implements \ArrayAccess
         }
 
         if ($node->getWeight() <= $index && $node->getRightChild() !== null) {
-            return $this->index($index - $node->getWeight(), $node->getRightChild());
+            return $this->index(node: $node->getRightChild(), index: $index - $node->getWeight());
         }
         if ($node->getLeftChild() !== null) {
-            return $this->index($index, $node->getLeftChild());
+            return $this->index(node: $node->getLeftChild(), index: $index);
         }
         if (strlen($node->getValue()) > $index) {
             return $node->getValue()[$index];
@@ -101,13 +101,13 @@ class Rope implements \ArrayAccess
         $node ??= $this->root;
 
         if ($node->getWeight() <= $index && $node->getRightChild() !== null) {
-            return $this->splitNodeAtPosition($index - $node->getWeight(), $node->getRightChild());
+            return $this->splitNodeAtPosition(node: $node->getRightChild(), index: $index - $node->getWeight());
         }
         if ($node->getLeftChild() !== null) {
-            return $this->splitNodeAtPosition($index, $node->getLeftChild());
+            return $this->splitNodeAtPosition(node: $node->getLeftChild(), index: $index);
         }
         if (strlen($node->getValue()) > $index) {
-            $node->splitAndAddChildren($index);
+            $node->splitAndAddChildren(index: $index);
             return $node;
         }
         return null;
@@ -134,7 +134,7 @@ class Rope implements \ArrayAccess
         $ret = "";
         while (strlen($ret) < $length) {
             $index = $start + strlen($ret);
-            $node = $this->getNodeOfIndex($index);
+            $node = $this->getNodeOfIndex(index: $index);
             for ($i = $index; $i < strlen($node->getValue()); $i++) {
                 if (strlen($ret) < $length) {
                     $ret .= $node->getValue()[$i];
@@ -158,13 +158,13 @@ class Rope implements \ArrayAccess
         }
 
         if ($length === null || $start + $length > $this->length()) {
-            $c = splitRope($this, $start)[0];
+            $c = splitRope(rope: $this, index: $start)[0];
         }
         else {
             $end = $start + $length;
-            $r1 = splitRope($this, $start);
-            $r2 = splitRope($r1[1], $end - $start);
-            $c = concatRope($r1[0], $r2[1]);
+            $r1 = splitRope(rope: $this, index: $start);
+            $r2 = splitRope(rope: $r1[1], index: $end - $start);
+            $c = concatRope(r1: $r1[0], r2: $r2[1]);
         }
         $this->root = $c->getRoot();
     }
@@ -183,10 +183,10 @@ class Rope implements \ArrayAccess
             return $node->getValue();
         }
         if ($node?->getLeftChild() !== null) {
-            $ret .= $this->toString($node->getLeftChild());
+            $ret .= $this->toString(node: $node->getLeftChild());
         }
         if ($node?->getRightChild() !== null) {
-            $ret .= $this->toString($node->getRightChild());
+            $ret .= $this->toString(node: $node->getRightChild());
         }
 
         return $ret;
@@ -217,13 +217,12 @@ class Rope implements \ArrayAccess
 
         if ($node->getWeight() <= $index && $node->getRightChild() !== null) {
             $index = $index - $node->getWeight();
-            return $this->getNodeOfIndex($index, $node->getRightChild());
+            return $this->getNodeOfIndex(node: $node->getRightChild(), index: $index);
         }
         if ($node->getLeftChild() !== null) {
-            return $this->getNodeOfIndex($index, $node->getLeftChild());
+            return $this->getNodeOfIndex(node: $node->getLeftChild(), index: $index);
         }
         if (strlen($node->getValue()) > $index) {
-            $index;
             return $node;
         }
         return null;
@@ -276,7 +275,7 @@ class Rope implements \ArrayAccess
     public function offsetGet($offset)
     {
         if (is_int($offset)) {
-            return $this->index($offset);
+            return $this->index(index: $offset);
         }
         else {
             throw new \Exception('Rope offset must be an integer');
@@ -289,16 +288,16 @@ class Rope implements \ArrayAccess
     public function offsetSet($offset, $value) : void
     {
         if ($offset === null && is_string($value)) {
-            $this->insert($value);
+            $this->insert(value: $value);
             return;
         }
 
         if (is_int($offset)) {
             if (is_string($value) && strlen($value) === 1) {
                 $index = $offset;
-                $node = &$this->getNodeOfIndex($index);
+                $node = &$this->getNodeOfIndex(index: $index);
                 $v = substr_replace($node->getValue(), $value, $index, 1);
-                $node->changeValue($v);
+                $node->changeValue(newVal: $v);
 
             }
             else {
@@ -317,7 +316,7 @@ class Rope implements \ArrayAccess
     public function offsetUnset($offset) : void
     {
         if (is_int($offset)) {
-            $this->removeSubstr($offset, 1);
+            $this->removeSubstr(start: $offset, length: 1);
         }
         else {
             throw new \Exception('Rope offset must be an integer');

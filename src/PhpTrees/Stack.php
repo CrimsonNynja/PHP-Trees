@@ -26,7 +26,7 @@ class Stack
      */
     public function pop() : mixed
     {
-        return array_pop($this->container);
+        return array_pop(array: $this->container);
     }
 
     /**
@@ -35,7 +35,7 @@ class Stack
      */
     public function peek() : mixed
     {
-        return end($this->container);
+        return end(array: $this->container);
     }
 
     /**
