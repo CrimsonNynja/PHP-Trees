@@ -39,10 +39,7 @@ class Rope implements \ArrayAccess
      */
     public function length() : int
     {
-        if ($this->root !== null) {
-            return $this->root->getLeafWeights();
-        }
-        return 0;
+        return $this->root?->getLeafWeights() + 0;
     }
 
     /**
@@ -180,21 +177,16 @@ class Rope implements \ArrayAccess
     public function toString(RopeNode $node = null) : string
     {
         $ret = "";
+        $node ??= $this->root;
 
-        if ($node === null) {
-            $node = $this->root;
+        if ($node?->getValue() !== null) {
+            return $node->getValue();
         }
-
-        if ($node !== null) {
-            if ($node->getValue() !== null) {
-                return $node->getValue();
-            }
-            if ($node->getLeftChild() !== null) {
-                $ret .= $this->toString($node->getLeftChild());
-            }
-            if ($node->getRightChild() !== null) {
-                $ret .= $this->toString($node->getRightChild());
-            }
+        if ($node?->getLeftChild() !== null) {
+            $ret .= $this->toString($node->getLeftChild());
+        }
+        if ($node?->getRightChild() !== null) {
+            $ret .= $this->toString($node->getRightChild());
         }
 
         return $ret;
@@ -217,9 +209,8 @@ class Rope implements \ArrayAccess
      */
     private function &getNodeOfIndex(int &$index, RopeNode $node = null) : ?RopeNode
     {
-        if ($node === null) {
-            $node = $this->root;
-        }
+        $node ??= $this->root;
+
         if ($node === null) {
             return null;
         }

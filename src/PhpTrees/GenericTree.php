@@ -47,9 +47,7 @@ class GenericTree
             $result = null;
             $children = $node->getChildren();
             foreach($children as $child) {
-                if ($result === null) {
-                    $result = $this->findNode($id, $child);
-                }
+                $result ??= $this->findNode($id, $child);
             }
             return $result;
         }
@@ -72,9 +70,7 @@ class GenericTree
             $result = null;
             $children = $node->getChildren();
             foreach($children as $child) {
-                if ($result === null) {
-                    $result = $this->findNodeByValue($value, $child);
-                }
+                $result ??= $this->findNodeByValue($value, $child);
             }
             return $result;
         }

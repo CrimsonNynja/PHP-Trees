@@ -47,9 +47,7 @@ class BinarySearchTree implements \Iterator
     {
         if ($this->getSize() <= 1) {
             $this->comparator = $comparator;
-            if ($this->root !== null) {
-                $this->root->setComparator($this->comparator);
-            }
+            $this->root?->setComparator($this->comparator);
             return true;
         }
         return false;
@@ -126,7 +124,7 @@ class BinarySearchTree implements \Iterator
             if ($value > $node->getValue() && $node->getRightChild() !== null) {
                 return $this->find($value, $node->getRightChild());
             }
-            else if ($node->getLeftChild() !== null){
+            else if ($node->getLeftChild() !== null) {
                 return $this->find($value, $node->getLeftChild());
             }
         }
@@ -144,7 +142,7 @@ class BinarySearchTree implements \Iterator
         if ($cmp === true && $node->getRightChild() !== null) {
             return $this->find($value, $node->getRightChild());
         }
-        else if ($node->getLeftChild() !== null){
+        else if ($node->getLeftChild() !== null) {
             return $this->find($value, $node->getLeftChild());
         }
         return null;
@@ -219,9 +217,7 @@ class BinarySearchTree implements \Iterator
      */
     private function getMaxNode(BstNode $node = null) : ?BstNode
     {
-        if ($node === null) {
-            $node = $this->root;
-        }
+        $node ??= $this->root;
 
         if ($this->root === null) {
             return null;

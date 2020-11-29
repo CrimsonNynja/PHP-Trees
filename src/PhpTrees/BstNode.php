@@ -99,15 +99,11 @@ class BstNode
      */
     public function removeChild(int $id) : void
     {
-        if ($this->left !== null) {
-            if ($this->left->getId() === $id) {
-                $this->left = null;
-            }
+        if ($this->left?->getId() === $id) {
+            $this->left = null;
         }
-        if ($this->right !== null) {
-            if ($this->right->getId() === $id) {
-                $this->right = null;
-            }
+        if ($this->right?->getId() === $id) {
+            $this->right = null;
         }
     }
 
@@ -118,15 +114,11 @@ class BstNode
      */
     public function replaceChild(int $id, BstNode $node) : void
     {
-        if ($this->left !== null) {
-            if ($this->left->getId() === $id) {
-                $this->left = $node;
-            }
+        if ($this->left?->getId() === $id) {
+            $this->left = $node;
         }
-        if ($this->right !== null) {
-            if ($this->right->getId() === $id) {
-                $this->right = $node;
-            }
+        if ($this->right?->getId() === $id) {
+            $this->right = $node;
         }
     }
 
@@ -149,15 +141,11 @@ class BstNode
      */
     public function hasChild(BstNode $child) : bool
     {
-        if ($this->left !== null) {
-            if ($this->left->getId() === $child->getId()) {
-                return true;
-            }
+        if ($this->left?->getId() === $child->getId()) {
+            return true;
         }
-        if ($this->right !== null) {
-            if ($this->right->getId() === $child->getId()) {
-                return true;
-            }
+        if ($this->right?->getId() === $child->getId()) {
+            return true;
         }
         return false;
     }
