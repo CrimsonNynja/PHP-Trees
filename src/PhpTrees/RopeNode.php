@@ -175,12 +175,12 @@ class RopeNode
 
     /**
      * changes the value of the node, if it is a leaf
-     * @param string $newVal the new value for the node
+     * @param string $value the new value for the node
      */
-    public function changeValue(string $newVal) : void
+    public function updateValue(string $value) : void
     {
         if ($this->hasChildren() === false) {
-            $this->value = $newVal;
+            $this->value = $value;
         }
     }
 

@@ -297,7 +297,7 @@ class Rope implements \ArrayAccess
                 $index = $offset;
                 $node = &$this->getNodeOfIndex(index: $index);
                 $v = substr_replace($node->getValue(), $value, $index, 1);
-                $node->changeValue(newVal: $v);
+                $node->updateValue(value: $v);
 
             }
             else {

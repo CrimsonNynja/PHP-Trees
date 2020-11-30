@@ -11,11 +11,11 @@ final class BinaryHeapTest extends TestCase
         $this->assertNull($h->getMinValue());
         $this->assertFalse($h->hasComparator());
 
-        $h = new BinaryHeap(root: 5);
+        $h = new BinaryHeap(rootValue: 5);
         $this->assertSame($h->getMinValue(), 5);
 
         $h = new BinaryHeap(
-            root: 6,
+            rootValue: 6,
             comparator: fn($a, $b) : bool => $a > $b
         );
 
@@ -132,7 +132,7 @@ final class BinaryHeapTest extends TestCase
     public function testComparator()
     {
         $h = new BinaryHeap(
-            root: "a",
+            rootValue: "a",
             comparator: fn($a, $b) : bool => strlen($a) <= strlen($b)
         );
 
@@ -143,7 +143,7 @@ final class BinaryHeapTest extends TestCase
         $this->assertSame($h->getMinValue(), "aaaa");
 
         $h = new BinaryHeap(
-            root: null,
+            rootValue: null,
             comparator: fn($a, $b) : bool => strlen($a) <= strlen($b)
         );
 
@@ -153,7 +153,7 @@ final class BinaryHeapTest extends TestCase
         $h->deleteMin();
         $this->assertSame($h->getMinValue(), "aaa");
 
-        $h = new BinaryHeap(root: "a");
+        $h = new BinaryHeap(rootValue: "a");
         $cmp = $h->setComparitor(comparator: fn($a, $b) : bool => strlen($a) <= strlen($b));
         $this->assertTrue($cmp);
         $h->insertMultiple("aa", "aaa", "aaaa", "aaaaa");

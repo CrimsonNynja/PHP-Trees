@@ -11,8 +11,6 @@ class GenericNode
 {
     /* The nodes children */
     private array $children = [];
-    /* the nodes parent */
-    private ?GenericNode $parent = null;
     /* the nodes id */
     private int $id = 0;
 
@@ -21,7 +19,8 @@ class GenericNode
      * @param mixed $value the default value of the node, null if not given
      */
     public function __construct(
-        private mixed $value = null
+        private mixed $value = null,
+        private ?GenericNode $parent = null
     ) {
         static $id = 0;
         $this->id = $id++;
