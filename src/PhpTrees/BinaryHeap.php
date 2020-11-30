@@ -20,10 +20,10 @@ class BinaryHeap
      * @param mixed|null $root the initial root of the heap
      * @param callable|null $comparator custom comparator for any non standard objects stored in the heap in the form func ($a, $b) and returns true if $a > $b
      */
-    public function __construct(mixed $root = null, ?callable $comparator = null)
+    public function __construct(mixed $rootValue = null, ?callable $comparator = null)
     {
-        if ($root !== null) {
-            $this->insert(value: $root);
+        if ($rootValue !== null) {
+            $this->insert(value: $rootValue);
         }
         $this->comparator = $comparator;
     }

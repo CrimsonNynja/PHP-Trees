@@ -111,16 +111,16 @@ class BstNode
 
     /**
      * replaces the given child with the given node
-     * @param int $id the child to replace
      * @param BstNode $node the node to replace the child with
+     * @param int $id the child to replace
      */
-    public function replaceChild(int $id, BstNode $node) : void
+    public function replaceChild(BstNode $newNode, int $idToReplace) : void
     {
-        if ($this->left?->getId() === $id) {
-            $this->left = $node;
+        if ($this->left?->getId() === $idToReplace) {
+            $this->left = $newNode;
         }
-        if ($this->right?->getId() === $id) {
-            $this->right = $node;
+        if ($this->right?->getId() === $idToReplace) {
+            $this->right = $newNode;
         }
     }
 

@@ -273,7 +273,7 @@ class BinarySearchTree implements \Iterator
                 $this->root = $childReplacingWith;
             }
             else {
-                $node->getParent()->replaceChild(id: $node->getId(), node: $childReplacingWith);
+                $node->getParent()->replaceChild(newNode: $childReplacingWith, idToReplace: $node->getId());
             }
         }
 
