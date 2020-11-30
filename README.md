@@ -6,7 +6,7 @@ This repo is designed to have all common trees used in an easy to use php way
 
 Current included are implementations of a Binary Search Tree, Rope, Binary Heap, and a Generic Tree, with more to come!
 
-All tests are written in PHP Unit, and all code is written in the PSR-4 standards. Php Trees also requires PHP 7.4 or above
+All tests are written in PHP Unit, and all code is written in the PSR-4 standards. Php Trees also requires PHP 8.0.0 or above, and utilizes all modern features of PHP.
 
 PHP Trees can be installed through composer with
 
@@ -23,7 +23,7 @@ To use the binary search tree, include the correct file and create it as such
 ```php
 use PhpTrees\BinarySearchTree;
 
-$b = new BinarySearchTree(5);
+$b = new BinarySearchTree(rootValue: 5);
 // This will create a binary search tree with a root of the value 5
 ```
 
@@ -32,8 +32,8 @@ To use the Rope
 ```php
 use PhpTrees\Rope;
 
-$r = new Rope("This is a Rope!");
-// This will create a Rope with the initial string, "This is a Rope"
+$r = new Rope(string: "This is a Rope!");
+// This will create a Rope with the initial string, "This is a Rope!"
 ```
 
 To use the Binary Heap
@@ -50,7 +50,7 @@ To use the Generic Tree
 ```php
 use PhpTrees\GenericTree;
 
-$g = new GenericTree(4.1);
+$g = new GenericTree(rootValue: 4.1);
 // This will create a generic tree with root 4.1
 ```
 

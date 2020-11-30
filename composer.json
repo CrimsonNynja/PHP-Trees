@@ -2,7 +2,7 @@
     "name": "crimson-nynja/php-trees",
     "description": "PHP implementation of various Trees",
     "license": "GPL-3.0-or-later",
-    "keywords": ["PHP", "Trees", "Tree", "Binary Search Tree", "BST", "Rope", "Binary Heap", "Heap", "Generic Tree"],
+    "keywords": ["PHP", "Trees", "Tree", "Binary Search Tree", "BST", "Rope", "Binary Heap", "Heap", "Generic Tree", "PHP 8"],
     "authors": [
         {
             "name": "Hudson Cassidy",
