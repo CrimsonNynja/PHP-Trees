@@ -7,14 +7,14 @@ final class RopeNodeTest extends TestCase
 {
     public function testConstruct()
     {
-        $n = new PhpTrees\RopeNode("test");
+        $n = new RopeNode(value: "test");
         $this->assertSame($n->getValue(), "test");
         $this->assertNull($n->getRightChild());
         $this->assertNull($n->getLeftChild());
         $this->assertNull($n->getParent());
         $this->assertSame($n->getWeight(), 4);
 
-        $n = new PhpTrees\RopeNode();
+        $n = new RopeNode();
         $this->assertNull($n->getValue());
         $this->assertNull($n->getRightChild());
         $this->assertNull($n->getLeftChild());
@@ -24,13 +24,13 @@ final class RopeNodeTest extends TestCase
 
     public function testAddRightChild()
     {
-        $n = new PhpTrees\RopeNode("test");
+        $n = new RopeNode(value: "test");
         $this->assertNull($n->getRightChild());
         $this->assertNull($n->getLeftChild());
         $this->assertSame($n->getWeight(), 4);
         $this->assertSame($n->getValue(), "test");
 
-        $n->addRightChild(new PhpTrees\RopeNode("test2"));
+        $n->addRightChild(node: new RopeNode(value: "test2"));
         $this->assertNull($n->getLeftChild());
         $this->assertSame($n->getWeight(), 0);
         $this->assertNull($n->getValue());
@@ -38,9 +38,9 @@ final class RopeNodeTest extends TestCase
         $this->assertSame($n->getRightChild()->getParent(), $n);
 
 
-        $n = new PhpTrees\RopeNode("test");
-        $n->addLeftChild(new PhpTrees\RopeNode("test2"));
-        $n->addRightChild(new PhpTrees\RopeNode("test2"));
+        $n = new RopeNode(value: "test");
+        $n->addLeftChild(node: new RopeNode(value: "test2"));
+        $n->addRightChild(node: new RopeNode(value: "test2"));
         $this->assertSame($n->getWeight(), 5);
         $this->assertNull($n->getValue());
         $this->assertSame($n->getRightChild()->getValue(), "test2");
@@ -48,13 +48,13 @@ final class RopeNodeTest extends TestCase
 
     public function testAddLeftChild()
     {
-        $n = new PhpTrees\RopeNode("test");
+        $n = new RopeNode(value: "test");
         $this->assertNull($n->getRightChild());
         $this->assertNull($n->getLeftChild());
         $this->assertSame($n->getWeight(), 4);
         $this->assertSame($n->getValue(), "test");
 
-        $n->addLeftChild(new PhpTrees\RopeNode("test2"));
+        $n->addLeftChild(node: new RopeNode(value: "test2"));
         $this->assertNull($n->getRightChild());
         $this->assertSame($n->getWeight(), 5);
         $this->assertNull($n->getValue());
@@ -64,55 +64,55 @@ final class RopeNodeTest extends TestCase
 
     public function testGetLeafWeights()
     {
-        $n = new PhpTrees\RopeNode();
+        $n = new RopeNode();
         $this->assertSame($n->getLeafWeights(), 0);
 
-        $n = new PhpTrees\RopeNode("test");
+        $n = new RopeNode(value: "test");
         $this->assertSame($n->getLeafWeights(), 4);
 
-        $n = new PhpTrees\RopeNode("test");
-        $n->addLeftChild(new PhpTrees\RopeNode("test2"));
+        $n = new RopeNode(value: "test");
+        $n->addLeftChild(node: new RopeNode(value: "test2"));
         $this->assertSame($n->getLeafWeights(), 5);
-        $n->addRightChild(new PhpTrees\RopeNode("test3"));
+        $n->addRightChild(node: new RopeNode(value: "test3"));
         $this->assertSame($n->getLeafWeights(), 10);
     }
 
     public function testHasChildren()
     {
-        $n = new PhpTrees\RopeNode();
+        $n = new RopeNode();
         $this->assertFalse($n->hasChildren());
 
-        $n = new PhpTrees\RopeNode("test");
+        $n = new RopeNode(value: "test");
         $this->assertFalse($n->hasChildren());
 
-        $n = new PhpTrees\RopeNode();
-        $n->addRightChild(new PhpTrees\RopeNode("test2"));
+        $n = new RopeNode();
+        $n->addRightChild(node: new RopeNode(value: "test2"));
         $this->assertTrue($n->hasChildren());
 
-        $n = new PhpTrees\RopeNode();
-        $n->addLeftChild(new PhpTrees\RopeNode("test2"));
+        $n = new RopeNode();
+        $n->addLeftChild(node: new RopeNode(value: "test2"));
         $this->assertTrue($n->hasChildren());
 
-        $n = new PhpTrees\RopeNode();
-        $n->addRightChild(new PhpTrees\RopeNode("test2"));
-        $n->addLeftChild(new PhpTrees\RopeNode("test2"));
+        $n = new RopeNode();
+        $n->addRightChild(node: new RopeNode(value: "test2"));
+        $n->addLeftChild(node: new RopeNode(value: "test2"));
         $this->assertTrue($n->hasChildren());
     }
 
     public function testSplitAndAddChildren()
     {
-        $n = new PhpTrees\RopeNode();
-        $n->splitAndAddChildren(5);
+        $n = new RopeNode();
+        $n->splitAndAddChildren(index: 5);
         $this->assertNull($n->getLeftChild());
         $this->assertNull($n->getRightChild());
 
-        $n = new PhpTrees\RopeNode("This is a test");
-        $n->splitAndAddChildren(14);
+        $n = new RopeNode(value: "This is a test");
+        $n->splitAndAddChildren(index: 14);
         $this->assertNull($n->getLeftChild());
         $this->assertNull($n->getRightChild());
 
-        $n = new PhpTrees\RopeNode("This is a test");
-        $n->splitAndAddChildren(5);
+        $n = new RopeNode(value: "This is a test");
+        $n->splitAndAddChildren(index: 5);
         $this->assertSame("This ", $n->getLeftChild()->getValue());
         $this->assertSame("is a test", $n->getRightChild()->getValue());
         $this->assertNull($n->getValue());
@@ -121,38 +121,38 @@ final class RopeNodeTest extends TestCase
 
     public function testChangeValue()
     {
-        $n = new PhpTrees\RopeNode("words");
-        $n->changeValue("bob");
+        $n = new RopeNode(value: "words");
+        $n->changeValue(newVal: "bob");
         $this->assertSame($n->getValue(), "bob");
 
-        $n = new PhpTrees\RopeNode("words");
-        $n->addLeftChild(new PhpTrees\RopeNode("bob"));
-        $n->changeValue("bob");
+        $n = new RopeNode(value: "words");
+        $n->addLeftChild(node: new RopeNode(value: "bob"));
+        $n->changeValue(newVal: "bob");
         $this->assertNull($n->getValue());
     }
 
     public function testRemoveRightChild()
     {
-        $n = new PhpTrees\RopeNode();
+        $n = new RopeNode();
         $c = $n->removeRightChildren();
         $this->assertNull($c);
         $this->assertNull($n->getRightChild());
 
-        $n = new PhpTrees\RopeNode();
-        $n->addLeftChild(new RopeNode("ln"));
+        $n = new RopeNode();
+        $n->addLeftChild(node: new RopeNode(value: "ln"));
         $c = $n->removeRightChildren();
         $this->assertNull($c);
         $this->assertNull($n->getRightChild());
 
-        $n = new PhpTrees\RopeNode();
-        $n->addRightChild(new RopeNode("rn"));
+        $n = new RopeNode();
+        $n->addRightChild(node: new RopeNode(value: "rn"));
         $c = $n->removeRightChildren();
         $this->assertSame($c->getValue(), "rn");
         $this->assertNull($n->getRightChild());
 
-        $n = new PhpTrees\RopeNode();
-        $n->addLeftChild(new RopeNode("ln"));
-        $n->addRightChild(new RopeNode("rn"));
+        $n = new RopeNode();
+        $n->addLeftChild(node: new RopeNode(value: "ln"));
+        $n->addRightChild(node: new RopeNode(value: "rn"));
         $c = $n->removeRightChildren();
         $this->assertSame($c->getValue(), "rn");
         $this->assertNull($n->getRightChild());
