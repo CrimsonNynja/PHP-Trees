@@ -34,11 +34,11 @@ class GenericNode
     public function addChild(mixed $value) : void
     {
         if ($value instanceof GenericNode) {
-            $this->addChildFromNode($value);
+            $this->addChildFromNode(node: $value);
         }
         else {
-            $n = new GenericNode($value);
-            $n->setParent($this);
+            $n = new GenericNode(value: $value);
+            $n->setParent(node: $this);
             $this->children[] = $n;
         }
     }
@@ -50,7 +50,7 @@ class GenericNode
     public function addChildren(mixed ...$values) : void
     {
         foreach($values as $value) {
-            $this->addChild($value);
+            $this->addChild(value: $value);
         }
     }
 
@@ -60,17 +60,17 @@ class GenericNode
      */
     public function addChildFromNode(GenericNode $node) : void
     {
-        $node->setParent(null);
+        $node->setParent(node: null);
 
         if ($node->getParent() === null && $node->getChildren() === []) {
-            $node->setParent($this);
+            $node->setParent(node: $this);
             $this->children[] = $node;
         }
-        if ($this->checkForCycles($this, $node) === true) {
+        if ($this->checkForCycles(node: $this, node2: $node) === true) {
             throw new Exception("Error: adding this node will create a cycle");
         }
         else {
-            $node->setParent($this);
+            $node->setParent(node: $this);
             $this->children[] = $node;
         }
     }
@@ -87,7 +87,7 @@ class GenericNode
             return true;
         }
         if ($node->getParent() !== null) {
-            return $this->checkForCycles($node->getParent(), $node2);
+            return $this->checkForCycles(node: $node->getParent(), node2: $node2);
         }
         return false;
     }

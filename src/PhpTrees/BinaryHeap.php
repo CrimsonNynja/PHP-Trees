@@ -23,7 +23,7 @@ class BinaryHeap
     public function __construct(mixed $root = null, ?callable $comparator = null)
     {
         if ($root !== null) {
-            $this->insert($root);
+            $this->insert(value: $root);
         }
         $this->comparator = $comparator;
     }
@@ -65,7 +65,7 @@ class BinaryHeap
     public function insert(mixed $value) : void
     {
         $this->heap[] = $value;
-        $this->bubbleUp(sizeof($this->heap) - 1);
+        $this->bubbleUp(index: sizeof($this->heap) - 1);
     }
 
     /**
@@ -76,7 +76,7 @@ class BinaryHeap
     public function insertMultiple(mixed ...$values) : void
     {
         foreach($values as $value) {
-            $this->insert($value);
+            $this->insert(value: $value);
         }
     }
 
@@ -89,8 +89,8 @@ class BinaryHeap
     {
         if ($this->heap !== []) {
             $ret = $this->heap[0];
-            $this->heap[0] = array_pop($this->heap);
-            $this->bubbleDown(0);
+            $this->heap[0] = array_pop(array: $this->heap);
+            $this->bubbleDown(index: 0);
             return $ret;
         }
         return null;
@@ -246,7 +246,7 @@ class BinaryHeap
             $dummy = $this->heap[$index];
             $this->heap[$index] = $this->heap[$minIndex];
             $this->heap[$minIndex] = $dummy;
-            $this->bubbleDown($minIndex);
+            $this->bubbleDown(index: $minIndex);
         }
     }
 }

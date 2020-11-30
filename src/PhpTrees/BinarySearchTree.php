@@ -30,11 +30,11 @@ class BinarySearchTree implements \Iterator
     public function __construct(mixed $rootValue = null, ?callable $comparator = null)
     {
         if ($rootValue !== null) {
-            $this->root = new BstNode($rootValue);
+            $this->root = new BstNode(value: $rootValue);
             $this->size += 1;
         }
         if ($comparator !== null) {
-            $this->setComparator($comparator);
+            $this->setComparator(comparator: $comparator);
         }
     }
 
@@ -47,7 +47,7 @@ class BinarySearchTree implements \Iterator
     {
         if ($this->getSize() <= 1) {
             $this->comparator = $comparator;
-            $this->root?->setComparator($this->comparator);
+            $this->root?->setComparator(comparator: $this->comparator);
             return true;
         }
         return false;
@@ -61,12 +61,12 @@ class BinarySearchTree implements \Iterator
     {
         $this->size += 1;
         if ($this->root !== null) {
-            $this->root->addChild($value);
+            $this->root->addChild(value: $value);
         }
         else {
-            $this->root = new BstNode($value);
+            $this->root = new BstNode(value: $value);
             if ($this->comparator !== null) {
-                $this->root->setComparator($this->comparator);
+                $this->root->setComparator(comparator: $this->comparator);
             }
         }
     }
@@ -79,7 +79,7 @@ class BinarySearchTree implements \Iterator
     {
         foreach($values as $value)
         {
-            $this->insert($value);
+            $this->insert(value: $value);
         }
     }
 
@@ -119,13 +119,13 @@ class BinarySearchTree implements \Iterator
         }
         else {
             if ($this->comparator !== null) {
-                return $this->findComparator($value, $node);
+                return $this->findComparator(node: $node, value: $value);
             }
             if ($value > $node->getValue() && $node->getRightChild() !== null) {
-                return $this->find($value, $node->getRightChild());
+                return $this->find(node: $node->getRightChild(), value: $value);
             }
             else if ($node->getLeftChild() !== null) {
-                return $this->find($value, $node->getLeftChild());
+                return $this->find(node: $node->getLeftChild(), value: $value);
             }
         }
         return null;
@@ -140,10 +140,10 @@ class BinarySearchTree implements \Iterator
     {
         $cmp = ($this->comparator)($node->getValue(), $value);
         if ($cmp === true && $node->getRightChild() !== null) {
-            return $this->find($value, $node->getRightChild());
+            return $this->find(node: $node->getRightChild(), value: $value);
         }
         else if ($node->getLeftChild() !== null) {
-            return $this->find($value, $node->getLeftChild());
+            return $this->find(node: $node->getLeftChild(), value: $value);
         }
         return null;
     }
@@ -155,7 +155,7 @@ class BinarySearchTree implements \Iterator
      */
     public function hasValue(mixed $value) : bool
     {
-        if ($this->find($value)) {
+        if ($this->find(value: $value)) {
             return true;
         }
         return false;
@@ -171,7 +171,7 @@ class BinarySearchTree implements \Iterator
         $ret = true;
         foreach($values as $value)
         {
-            $ret &= $this->hasValue($value);
+            $ret &= $this->hasValue(value: $value);
         }
         return $ret;
     }
@@ -193,7 +193,7 @@ class BinarySearchTree implements \Iterator
             return $node;
         }
         else {
-            return $this->getMinNode($node->getLeftChild());
+            return $this->getMinNode(node: $node->getLeftChild());
         }
     }
 
@@ -227,7 +227,7 @@ class BinarySearchTree implements \Iterator
             return $node;
         }
         else {
-            return $this->getMaxNode($node->getRightChild());
+            return $this->getMaxNode(node: $node->getRightChild());
         }
     }
 
@@ -256,15 +256,15 @@ class BinarySearchTree implements \Iterator
                 $this->root = null;
             }
             else {
-                $node->getParent()->removeChild($node->getId());
+                $node->getParent()->removeChild(id: $node->getId());
             }
         }
         else if ($node->getLeftChild() !== null && $node -> getRightChild() !== null)
         {
             //2 children
-            $maximumLeft = $this->getMaxNode($node->getLeftChild());
-            $node->setValue($maximumLeft->getValue());
-            $maximumLeft->getParent()->removeChild($maximumLeft->getId());
+            $maximumLeft = $this->getMaxNode(node: $node->getLeftChild());
+            $node->setValue(value: $maximumLeft->getValue());
+            $maximumLeft->getParent()->removeChild(id: $maximumLeft->getId());
         }
         else if ($node->getLeftChild() !== null || $node->getRightChild() !== null) {
             //1 child
@@ -273,7 +273,7 @@ class BinarySearchTree implements \Iterator
                 $this->root = $childReplacingWith;
             }
             else {
-                $node->getParent()->replaceChild($node->getId(), $childReplacingWith);
+                $node->getParent()->replaceChild(id: $node->getId(), node: $childReplacingWith);
             }
         }
 

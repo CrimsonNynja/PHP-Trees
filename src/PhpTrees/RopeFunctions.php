@@ -20,9 +20,9 @@ function concatRope(Rope $r1, Rope $r2) : Rope
 
     $rCopy = clone $r1;
     $r2Copy = clone $r2;
-    $ret = new Rope("");
-    $ret->getRoot()->addLeftChild($rCopy->getRoot());
-    $ret->getRoot()->addRightChild($r2Copy->getRoot());
+    $ret = new Rope(string: "");
+    $ret->getRoot()->addLeftChild(node: $rCopy->getRoot());
+    $ret->getRoot()->addRightChild(node: $r2Copy->getRoot());
 
     return $ret;
 }
@@ -40,17 +40,17 @@ function splitRope(Rope $rope, int $index) : array
     }
 
     $r1 = clone $rope;
-    $cursor = &$r1->splitNodeAtPosition($index);
-    $n = $cursor->removeRightChildren();
-    $r2 = new Rope($n->getValue());
+    $cursor = &$r1->splitNodeAtPosition(index: $index);
+    $removedChild = $cursor->removeRightChildren();
+    $r2 = new Rope(string: $removedChild->getValue());
 
     $lastCursor = null;
     while ($cursor !== null) {
         if ($cursor->getRightChild() !== null && $cursor->getRightChild() !== $lastCursor) {
             $node = $cursor->removeRightChildren();
             $dummy = new Rope();
-            $dummy->constructFromNode(clone $node);
-            $r2 = concatRope($r2, $dummy);
+            $dummy->constructFromNode(node: clone $node);
+            $r2 = concatRope(r1: $r2, r2: $dummy);
         }
 
         $lastCursor = $cursor;
