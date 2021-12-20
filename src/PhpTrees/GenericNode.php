@@ -12,7 +12,7 @@ class GenericNode
     /* The nodes children */
     private array $children = [];
     /* the nodes id */
-    private int $id = 0;
+    private readonly int $id = 0;
 
     /**
      * constructs a node

@@ -12,7 +12,7 @@ class BstNode
     /* the right child of the node */
     private ?BstNode $right = null;
     /* the node's id, used for iterating over the tree */
-    private int $id = 0;
+    private readonly int $id = 0;
     /* if set, used to comparing non literal values */
     private $comparator = null;
 
