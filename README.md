@@ -6,7 +6,7 @@ This repo is designed to have all common trees used in an easy to use php way
 
 Current included are implementations of a Binary Search Tree, Rope, Binary Heap, and a Generic Tree, with more to come!
 
-All tests are written in PHP Unit, and all code is written in the PSR-4 standards. Php Trees also requires PHP 8.0.0 or above, and utilizes all modern features of PHP.
+All tests are written in PHP Unit, and all code is written in the PSR-4 standards. Php Trees also requires PHP 8.1.0 or above, and utilizes all modern features of PHP.
 
 PHP Trees can be installed through composer with
 
