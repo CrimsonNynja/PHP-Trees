@@ -1,8 +1,11 @@
 <?php
 
+namespace Tests\PhpTrees;
+
+use PhpTrees\BstNode;
 use PHPUnit\Framework\TestCase;
 use PhpTrees\BinarySearchTree;
-use PhpTrees\BstNode;
+use Tests\Product;
 
 final class BinarySearchTreeTest extends TestCase
 {
@@ -292,5 +295,32 @@ final class BinarySearchTreeTest extends TestCase
         $b->insertMultiple("12345", "12", "123", "123456", "1");
         $cmp = $b->setComparator(comparator: fn($val, $val2) : bool => strlen($val) <= strlen($val2));
         $this->assertFalse($cmp);
+    }
+
+    public function testComparatorUseForEquality()
+    {
+        $b = new BinarySearchTree(comparator: static function (Product $existing, Product $new): int {
+            // sorting and equaling by price only, disregarding the name, strcmp style
+            return $new->price <=> $existing->price ;
+        });
+        $b->insertMultiple(
+            new Product('ab', 2),
+            new Product('bb', 2),
+            new Product('dd', 4),
+            new Product('aa', 1),
+            new Product('cc', 3),
+            new Product('ac', 3),
+        );
+
+        $this->assertEquals(new Product('ab', 2), $b->getRoot()->getValue());
+        $this->assertEquals(new Product('aa', 1), $b->getRoot()->getLeftChild()->getValue());
+        $this->assertEquals(new Product('bb', 2), $b->getRoot()->getRightChild()->getValue());
+        $this->assertEquals(new Product('dd', 4), $b->getRoot()->getRightChild()->getRightChild()->getValue());
+
+        $this->assertSame(1, $b->getMinValue()->price);
+
+        $item = $b->find(value: new Product('random name', 3))->getValue();
+        $this->assertSame(3, $item->price);
+        $this->assertTrue(in_array($item->name, ['ac', 'cc'], true), $item->name);
     }
 }

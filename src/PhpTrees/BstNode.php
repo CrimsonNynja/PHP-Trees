@@ -68,6 +68,8 @@ class BstNode
 
     /**
      * adds a new node based upon the comparator
+     * works with both bool or -1/0/1 style comparisons
+     *
      * @param mixed $value the value of the new node
      *
      * @note this should be renamed to something more descriptive
@@ -75,7 +77,7 @@ class BstNode
     private function addChildComparator(mixed $value) : void
     {
         $cmp = ($this->comparator)($this->value, $value);
-        if ($cmp === true) {
+        if ($cmp === true || $cmp === 1 || $cmp === 0) {
             if ($this->right === null) {
                 $this->right = new BstNode(parent: $this, value: $value);
                 $this->right->setComparator(comparator: $this->comparator);

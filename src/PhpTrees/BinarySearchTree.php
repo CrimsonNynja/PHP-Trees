@@ -40,8 +40,8 @@ class BinarySearchTree implements \Iterator
 
     /**
      * sets the comparator for the values to be added/found with
-     * @param callable $comparator the comparing function to use, int the form function($a, $b), returning a bool
-     * @return bool weather the comparitor was set or not
+     * @param callable $comparator the comparing function to use, in the form function($a, $b), returning a bool OR one of -1, 0, 1
+     * @return bool whether the comparator was set or not
      */
     public function setComparator(callable $comparator) : bool
     {
@@ -114,13 +114,17 @@ class BinarySearchTree implements \Iterator
             return null;
         }
 
+        if ($this->comparator !== null) {
+            $result = $this->findComparator(node: $node, value: $value);
+            if ($result !== null) {
+                return $result;
+            }
+        }
+
         if ($node->getValue() == $value) {
             return $node;
         }
         else {
-            if ($this->comparator !== null) {
-                return $this->findComparator(node: $node, value: $value);
-            }
             if ($value > $node->getValue() && $node->getRightChild() !== null) {
                 return $this->find(node: $node->getRightChild(), value: $value);
             }
@@ -133,16 +137,21 @@ class BinarySearchTree implements \Iterator
 
     /**
      * finds a node based on the given comparator
+     * works with both bool or -1/0/1 style comparisons
+     *
      * @param mixed $value the value to look for
      * @return BstNode|null the node with the given value or null
      */
     private function findComparator(mixed $value, BstNode $node = null) : ?BstNode
     {
         $cmp = ($this->comparator)($node->getValue(), $value);
-        if ($cmp === true && $node->getRightChild() !== null) {
-            return $this->find(node: $node->getRightChild(), value: $value);
+        if ($cmp === 0) {
+            return $node;
         }
-        else if ($node->getLeftChild() !== null) {
+
+        if (($cmp === true || $cmp === 1) && $node->getRightChild() !== null) {
+            return $this->find(node: $node->getRightChild(), value: $value);
+        } elseif (($cmp === false || $cmp === -1) && $node->getLeftChild() !== null) {
             return $this->find(node: $node->getLeftChild(), value: $value);
         }
         return null;
