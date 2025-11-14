@@ -5,25 +5,32 @@ on: [push]
 jobs:
   build:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php: ['8.1', '8.2', '8.3', '8.4']
+        dependencies: ['--prefer-lowest', '--prefer-dist']
+
+    name: PHP ${{ matrix.php }} unit tests on deps=${{ matrix.dependencies }}
 
     steps:
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
 
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
       with:
-        php-version: '8.1.0'
+        php-version: ${{ matrix.php }}
         extensions: mbstring, intl
         ini-values: post_max_size=256M, max_execution_time=180
         coverage: xdebug
         tools: php-cs-fixer, phpunit
 
-    - name: Validate composer.json and composer.lock
+    - name: Validate composer.json
       run: composer validate
 
     - name: Install dependencies
-      run: composer install --prefer-dist --no-progress
+      run: composer update --prefer-dist --no-progress ${{ matrix.dependencies }}
 
     - name: PHP version
       run: php -v
