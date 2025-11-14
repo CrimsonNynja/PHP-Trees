@@ -1,5 +1,8 @@
 <?php
 
+namespace Tests\PhpTrees;
+
+use Exception;
 use PHPUnit\Framework\TestCase;
 use PhpTrees\GenericNode;
 

@@ -1,5 +1,7 @@
 <?php
 
+namespace Tests\PhpTrees;
+
 use PHPUnit\Framework\TestCase;
 use PhpTrees\Stack;
 
