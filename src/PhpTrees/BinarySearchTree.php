@@ -250,6 +250,8 @@ class BinarySearchTree implements \Iterator
      */
     public function delete(BstNode $node) : void
     {
+        $this->size--;
+
         if ($node->getLeftChild() === null && $node->getRightChild() === null) {
             //no children
             if ($node->getId() == $this->root->getId()) {
@@ -276,7 +278,6 @@ class BinarySearchTree implements \Iterator
                 $node->getParent()->replaceChild(newNode: $childReplacingWith, idToReplace: $node->getId());
             }
         }
-
     }
 
     /**
