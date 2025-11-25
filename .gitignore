@@ -2,3 +2,4 @@
 .vscode
 codeCoverage
 .phpunit.result.cache
+composer.lock
