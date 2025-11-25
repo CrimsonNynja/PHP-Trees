@@ -68,6 +68,16 @@ final class BinarySearchTreeTest extends TestCase
         $this->assertSame($b->getSize(), 7);
     }
 
+    public function testGetSizeAfterDelete()
+    {
+        $b = new BinarySearchTree(rootValue: 5);
+        $b->insertMultiple(1, 4, 6, 7);
+        $this->assertSame($b->getSize(), 5);
+
+        $b->delete($b->find(value: 1));
+        $this->assertSame($b->getSize(), 4);
+    }
+
     public function testGetMinValue()
     {
         $b = new BinarySearchTree(rootValue: 5);
